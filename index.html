@@ -3,71 +3,89 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FusionX Trading AI — Live Autonomous Desk &amp; Investor Portal</title>
+  <title>FusionX Trading AI — Futuristic Live Autonomous Desk &amp; Quant Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
   <style>
     :root {
+      --font-display: "Space Grotesk", "Plus Jakarta Sans", -apple-system, sans-serif;
       --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
       --accent: #10B981;
+      --accent-cyan: #22D3EE;
+      --accent-indigo: #818CF8;
       --accent-hover: #34D399;
-      --accent-tint: rgba(16, 185, 129, 0.11);
-      --accent-border: rgba(16, 185, 129, 0.28);
-      --radius-btn: 6px;
-      --radius-card: 10px;
-      --radius-modal: 14px;
+      --accent-tint: rgba(16, 185, 129, 0.12);
+      --accent-border: rgba(16, 185, 129, 0.34);
+      --cyan-tint: rgba(34, 211, 238, 0.10);
+      --cyan-border: rgba(34, 211, 238, 0.30);
+      --radius-btn: 8px;
+      --radius-card: 12px;
+      --radius-modal: 16px;
       --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-      --motion-fast: 140ms;
-      --motion-base: 220ms;
+      --motion-fast: 150ms;
+      --motion-base: 260ms;
     }
 
     html[data-theme="dark"] {
       color-scheme: dark;
-      --bg-canvas: #0A0D12;
-      --bg-sidebar: #0D1118;
-      --bg-card: #11161F;
-      --bg-elevated: #171E2B;
-      --bg-hover: rgba(255, 255, 255, 0.035);
-      --border: #232D3F;
-      --border-subtle: rgba(255, 255, 255, 0.06);
-      --text-1: #F1F5F9;
+      --bg-canvas: #05080F;
+      --bg-sidebar: rgba(9, 13, 22, 0.88);
+      --bg-card: rgba(13, 19, 31, 0.80);
+      --bg-card-solid: #0E1523;
+      --bg-elevated: rgba(19, 27, 43, 0.78);
+      --bg-hover: rgba(34, 211, 238, 0.055);
+      --border: rgba(51, 65, 85, 0.65);
+      --border-glow: rgba(34, 211, 238, 0.24);
+      --border-subtle: rgba(148, 163, 184, 0.10);
+      --text-1: #F8FAFC;
       --text-2: #94A3B8;
       --text-3: #64748B;
       --profit: #34D399;
-      --profit-tint: rgba(52, 211, 153, 0.12);
-      --loss: #F43F5E;
-      --loss-tint: rgba(244, 63, 94, 0.12);
-      --warn: #F59E0B;
-      --warn-tint: rgba(245, 158, 11, 0.12);
-      --shadow-overlay: 0 20px 50px rgba(0, 0, 0, 0.65);
+      --profit-solid: #10B981;
+      --profit-tint: rgba(16, 185, 129, 0.14);
+      --loss: #FB7185;
+      --loss-solid: #F43F5E;
+      --loss-tint: rgba(244, 63, 94, 0.14);
+      --warn: #FBBF24;
+      --warn-tint: rgba(245, 158, 11, 0.14);
+      --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+      --shadow-overlay: 0 24px 64px rgba(0, 0, 0, 0.78);
     }
 
     html[data-theme="light"] {
       color-scheme: light;
-      --bg-canvas: #F8FAFC;
-      --bg-sidebar: #F1F5F9;
-      --bg-card: #FFFFFF;
+      --bg-canvas: #F4F7FB;
+      --bg-sidebar: rgba(255, 255, 255, 0.92);
+      --bg-card: rgba(255, 255, 255, 0.94);
+      --bg-card-solid: #FFFFFF;
       --bg-elevated: #F8FAFC;
-      --bg-hover: rgba(15, 23, 42, 0.035);
-      --border: #E2E8F0;
-      --border-subtle: rgba(15, 23, 42, 0.06);
+      --bg-hover: rgba(5, 150, 105, 0.05);
+      --border: #DCE4F0;
+      --border-glow: rgba(5, 150, 105, 0.28);
+      --border-subtle: rgba(15, 23, 42, 0.07);
       --text-1: #0F172A;
       --text-2: #475569;
       --text-3: #64748B;
       --accent: #059669;
+      --accent-cyan: #0284C7;
       --accent-hover: #047857;
-      --accent-tint: rgba(5, 150, 105, 0.09);
-      --accent-border: rgba(5, 150, 105, 0.28);
+      --accent-tint: rgba(5, 150, 105, 0.10);
+      --accent-border: rgba(5, 150, 105, 0.30);
+      --cyan-tint: rgba(2, 132, 199, 0.09);
+      --cyan-border: rgba(2, 132, 199, 0.25);
       --profit: #059669;
+      --profit-solid: #059669;
       --profit-tint: rgba(5, 150, 105, 0.10);
       --loss: #E11D48;
+      --loss-solid: #E11D48;
       --loss-tint: rgba(225, 29, 72, 0.10);
       --warn: #D97706;
       --warn-tint: rgba(217, 119, 6, 0.10);
-      --shadow-overlay: 0 18px 44px rgba(15, 23, 42, 0.14);
+      --shadow-card: 0 6px 24px rgba(15, 23, 42, 0.06);
+      --shadow-overlay: 0 20px 50px rgba(15, 23, 42, 0.16);
     }
 
     *, *::before, *::after { box-sizing: border-box; }
@@ -85,22 +103,49 @@
       overflow-x: clip;
     }
 
+    /* Ambient HUD Background Mesh (Dark Mode) */
+    html[data-theme="dark"] body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(900px 500px at 14% -5%, rgba(16, 185, 129, 0.09), transparent 60%),
+        radial-gradient(800px 460px at 88% 4%, rgba(34, 211, 238, 0.08), transparent 60%),
+        radial-gradient(640px 420px at 52% 95%, rgba(99, 102, 241, 0.06), transparent 65%);
+    }
+
+    html[data-theme="dark"] body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.22;
+      background-image:
+        linear-gradient(rgba(148, 163, 184, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.04) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: radial-gradient(ellipse at 50% 25%, black 35%, transparent 85%);
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
       }
     }
 
     .mono, .num {
       font-family: var(--font-mono);
-      font-variant-numeric: tabular-nums;
+      font-variant-numeric: tabular-nums slashed-zero;
     }
-    .num { font-variant-numeric: tabular-nums; }
 
     button, input, select { font-family: inherit; }
     button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible {
-      outline: 2px solid var(--accent);
+      outline: 2px solid var(--accent-cyan);
       outline-offset: 2px;
     }
 
@@ -108,12 +153,15 @@
     .app-shell {
       display: flex;
       min-height: 100dvh;
+      position: relative;
+      z-index: 1;
     }
 
     .sidebar {
-      width: 240px;
+      width: 244px;
       flex-shrink: 0;
       background: var(--bg-sidebar);
+      backdrop-filter: blur(18px);
       border-right: 1px solid var(--border);
       display: flex;
       flex-direction: column;
@@ -126,7 +174,7 @@
     }
 
     .brand {
-      padding: 18px 18px 14px;
+      padding: 16px 16px 14px;
       border-bottom: 1px solid var(--border-subtle);
       display: flex;
       align-items: center;
@@ -141,27 +189,31 @@
     }
 
     .brand-icon {
-      width: 30px;
-      height: 30px;
-      border-radius: 8px;
-      background: var(--accent-tint);
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.24), rgba(34, 211, 238, 0.16));
       border: 1px solid var(--accent-border);
-      color: var(--accent);
+      color: var(--profit);
       display: grid;
       place-items: center;
       flex-shrink: 0;
+      box-shadow: 0 0 18px rgba(16, 185, 129, 0.20);
+      position: relative;
     }
 
     .brand-title {
+      font-family: var(--font-display);
       font-weight: 700;
-      font-size: 14px;
-      letter-spacing: -0.01em;
+      font-size: 14.5px;
+      letter-spacing: -0.02em;
       line-height: 1.2;
     }
 
     .brand-sub {
       font-size: 11px;
       color: var(--text-3);
+      letter-spacing: 0.02em;
     }
 
     .nav-list {
@@ -187,19 +239,21 @@
       font-weight: 500;
       cursor: pointer;
       text-align: left;
-      transition: background var(--motion-fast) var(--ease-out), color var(--motion-fast) var(--ease-out);
+      transition: background var(--motion-fast) var(--ease-out), color var(--motion-fast) var(--ease-out), border-color var(--motion-fast) var(--ease-out), transform var(--motion-fast) var(--ease-out);
     }
 
     .nav-item:hover {
       background: var(--bg-hover);
       color: var(--text-1);
+      transform: translateX(2px);
     }
 
     .nav-item[aria-current="page"] {
-      background: var(--accent-tint);
-      color: var(--accent);
+      background: linear-gradient(90deg, var(--accent-tint), rgba(34, 211, 238, 0.06));
+      color: var(--profit);
       border-color: var(--accent-border);
       font-weight: 600;
+      box-shadow: 0 0 18px rgba(16, 185, 129, 0.08);
     }
 
     .nav-badge {
@@ -207,6 +261,15 @@
       font-family: var(--font-mono);
       font-size: 11px;
       color: var(--text-3);
+      padding: 1px 6px;
+      border-radius: 999px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .nav-item[aria-current="page"] .nav-badge {
+      color: var(--profit);
+      border-color: var(--accent-border);
     }
 
     .sidebar-footer {
@@ -218,7 +281,7 @@
     }
 
     .clock-box {
-      background: var(--bg-card);
+      background: var(--bg-elevated);
       border: 1px solid var(--border);
       border-radius: var(--radius-btn);
       padding: 10px 12px;
@@ -234,18 +297,57 @@
       font-size: 11.5px;
     }
 
+    /* Live Beacons & Animations */
     .status-dot {
-      width: 6px;
-      height: 6px;
+      width: 7px;
+      height: 7px;
       border-radius: 999px;
       display: inline-block;
       flex-shrink: 0;
+      position: relative;
     }
-    .dot-profit { background: var(--profit); }
-    .dot-loss { background: var(--loss); }
-    .dot-warn { background: var(--warn); }
+    .dot-profit { background: var(--profit); box-shadow: 0 0 8px var(--profit); }
+    .dot-loss { background: var(--loss); box-shadow: 0 0 8px var(--loss); }
+    .dot-warn { background: var(--warn); box-shadow: 0 0 8px var(--warn); }
+    .dot-cyan { background: var(--accent-cyan); box-shadow: 0 0 8px var(--accent-cyan); }
     .dot-muted { background: var(--text-3); }
 
+    .dot-pulse::after {
+      content: "";
+      position: absolute;
+      inset: -4px;
+      border-radius: 999px;
+      border: 1.5px solid currentColor;
+      color: inherit;
+      background: inherit;
+      opacity: 0;
+      animation: radarRing 2.1s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+    }
+
+    @keyframes radarRing {
+      0% { transform: scale(0.7); opacity: 0.75; }
+      75%, 100% { transform: scale(2.35); opacity: 0; }
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes tickUp {
+      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.45); background: rgba(16, 185, 129, 0.14); }
+      100% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); background: transparent; }
+    }
+
+    @keyframes tickDown {
+      0% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.45); background: rgba(244, 63, 94, 0.14); }
+      100% { box-shadow: 0 0 0 10px rgba(244, 63, 94, 0); background: transparent; }
+    }
+
+    .flash-up { animation: tickUp 700ms var(--ease-out); border-radius: 6px; }
+    .flash-down { animation: tickDown 700ms var(--ease-out); border-radius: 6px; }
+
+    /* Main Area & Topbar */
     .main-area {
       flex: 1;
       min-width: 0;
@@ -253,12 +355,12 @@
       flex-direction: column;
     }
 
-    /* Topbar */
     .topbar {
-      height: 56px;
-      padding: 0 24px;
+      height: 58px;
+      padding: 0 22px;
       border-bottom: 1px solid var(--border);
-      background: var(--bg-canvas);
+      background: var(--bg-sidebar);
+      backdrop-filter: blur(16px);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -266,6 +368,26 @@
       position: sticky;
       top: 0;
       z-index: 30;
+    }
+
+    .sync-sweep {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 2px;
+      width: 100%;
+      background: transparent;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .sync-sweep-bar {
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, transparent, var(--accent-cyan), var(--profit));
+      transform-origin: left center;
+      transform: scaleX(0);
+      transition: transform 0.9s linear;
     }
 
     .topbar-left {
@@ -289,8 +411,10 @@
     }
 
     .page-title {
-      font-size: 15px;
+      font-family: var(--font-display);
+      font-size: 15.5px;
       font-weight: 600;
+      letter-spacing: -0.01em;
       margin: 0;
       white-space: nowrap;
       overflow: hidden;
@@ -311,51 +435,105 @@
       padding: 0 10px;
       border-radius: var(--radius-btn);
       border: 1px solid var(--border);
-      background: transparent;
+      background: var(--bg-elevated);
       color: var(--text-2);
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 500;
       cursor: pointer;
       white-space: nowrap;
-      transition: background var(--motion-fast) var(--ease-out), color var(--motion-fast) var(--ease-out), border-color var(--motion-fast) var(--ease-out);
+      transition: background var(--motion-fast) var(--ease-out), color var(--motion-fast) var(--ease-out), border-color var(--motion-fast) var(--ease-out), transform var(--motion-fast) var(--ease-out);
     }
 
     .btn-ghost:hover {
       background: var(--bg-hover);
       color: var(--text-1);
-      border-color: var(--text-3);
+      border-color: var(--border-glow);
+      transform: translateY(-1px);
     }
 
     .btn-ghost.active {
-      background: var(--accent-tint);
-      color: var(--accent);
+      background: linear-gradient(135deg, var(--accent-tint), var(--cyan-tint));
+      color: var(--profit);
       border-color: var(--accent-border);
+      box-shadow: 0 0 14px rgba(16, 185, 129, 0.14);
     }
 
     .live-pill {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      height: 28px;
-      padding: 0 10px;
-      border-radius: var(--radius-btn);
-      border: 1px solid var(--border);
-      background: var(--bg-card);
+      gap: 7px;
+      height: 30px;
+      padding: 0 11px;
+      border-radius: 999px;
+      border: 1px solid var(--accent-border);
+      background: var(--accent-tint);
       font-size: 11.5px;
-      color: var(--text-2);
+      color: var(--profit);
       white-space: nowrap;
     }
 
+    /* Streaming Ticker Marquee Strip */
+    .ticker-tape {
+      border-bottom: 1px solid var(--border);
+      background: rgba(8, 12, 20, 0.72);
+      overflow: hidden;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    html[data-theme="light"] .ticker-tape {
+      background: #FFFFFF;
+    }
+
+    .ticker-track {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-left: 16px;
+      width: max-content;
+      animation: marqueeScroll 42s linear infinite;
+    }
+
+    .ticker-tape:hover .ticker-track {
+      animation-play-state: paused;
+    }
+
+    @keyframes marqueeScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .tape-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-elevated);
+      font-size: 11.5px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: border-color var(--motion-fast) var(--ease-out), background var(--motion-fast) var(--ease-out);
+    }
+
+    .tape-chip:hover {
+      border-color: var(--accent-cyan);
+      background: var(--cyan-tint);
+    }
+
+    /* Content Container */
     .content {
-      padding: 20px 24px 40px;
+      padding: 18px 22px 44px;
       display: flex;
       flex-direction: column;
-      gap: 18px;
-      max-width: 1480px;
+      gap: 16px;
+      max-width: 1560px;
       width: 100%;
     }
 
-    /* Alert / Partial Error Banner */
     .status-banner {
       display: none;
       align-items: center;
@@ -370,28 +548,48 @@
     }
     .status-banner.show { display: flex; }
 
-    /* Hero + Support Strip (Asymmetric Hierarchy) */
+    /* Cards & Futuristic Glass HUD Surfaces */
+    .card {
+      background: var(--bg-card);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 16px 18px;
+      box-shadow: var(--shadow-card);
+      position: relative;
+      transition: border-color var(--motion-base) var(--ease-out), transform var(--motion-base) var(--ease-out);
+    }
+
+    .card:hover {
+      border-color: var(--border-glow);
+    }
+
     .hero-grid {
       display: grid;
-      grid-template-columns: minmax(300px, 1.55fr) repeat(3, minmax(170px, 1fr));
+      grid-template-columns: minmax(310px, 1.5fr) repeat(3, minmax(175px, 1fr));
       gap: 14px;
       align-items: stretch;
     }
 
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-card);
-      padding: 16px 18px;
-    }
-
     .hero-card {
-      background: linear-gradient(135deg, var(--accent-tint), var(--bg-card) 62%);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.16), rgba(34, 211, 238, 0.06) 45%, var(--bg-card) 85%);
       border-color: var(--accent-border);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       gap: 12px;
+      overflow: hidden;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: -30px;
+      width: 160px;
+      height: 160px;
+      background: radial-gradient(circle, rgba(34, 211, 238, 0.18), transparent 70%);
+      pointer-events: none;
     }
 
     .card-label {
@@ -405,10 +603,11 @@
     }
 
     .hero-value {
+      font-family: var(--font-mono);
       font-size: 34px;
       font-weight: 700;
-      letter-spacing: -0.025em;
-      line-height: 1.1;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
     }
 
     .support-card {
@@ -431,41 +630,97 @@
     }
 
     .progress-track {
-      height: 6px;
+      height: 7px;
       width: 100%;
-      background: var(--border);
+      background: rgba(148, 163, 184, 0.16);
       border-radius: 999px;
       overflow: hidden;
     }
 
     .progress-fill {
       height: 100%;
-      background: var(--accent);
+      background: linear-gradient(90deg, var(--accent), var(--accent-cyan));
       border-radius: 999px;
-      transition: width 320ms var(--ease-out);
+      transition: width 650ms var(--ease-out);
+      box-shadow: 0 0 10px rgba(34, 211, 238, 0.45);
     }
 
-    /* Middle 2/3 + 1/3 Split */
-    .split-grid {
+    /* Terminal Grid & Multi-Charts */
+    .terminal-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.85fr) minmax(300px, 1fr);
+      grid-template-columns: minmax(0, 1.75fr) minmax(320px, 1fr);
       gap: 14px;
       align-items: stretch;
+    }
+
+    .split-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .analytics-trio {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) minmax(0, 0.9fr);
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .mini-candles-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .mini-candle-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: border-color var(--motion-fast) var(--ease-out), transform var(--motion-fast) var(--ease-out), box-shadow var(--motion-fast) var(--ease-out);
+    }
+
+    .mini-candle-card:hover {
+      border-color: var(--accent-cyan);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 26px rgba(34, 211, 238, 0.08);
+    }
+
+    .mini-candle-card.active {
+      border-color: var(--accent-border);
+      background: linear-gradient(160deg, var(--accent-tint), var(--bg-card) 70%);
     }
 
     .section-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
       margin-bottom: 12px;
       flex-wrap: wrap;
     }
 
     .section-title {
-      font-size: 14px;
+      font-family: var(--font-display);
+      font-size: 14.5px;
       font-weight: 600;
+      letter-spacing: -0.01em;
       margin: 0;
+    }
+
+    .ohlc-bar {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      padding: 7px 12px;
+      margin-bottom: 8px;
+      border-radius: var(--radius-btn);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      font-size: 11.5px;
     }
 
     .chart-box {
@@ -473,11 +728,51 @@
       height: 270px;
     }
 
-    /* Live Market Ticker Strip */
+    .chart-box-tall {
+      width: 100%;
+      height: 365px;
+    }
+
+    .chart-box-mini {
+      width: 100%;
+      height: 112px;
+    }
+
+    /* AI Neural Flow Pipeline */
+    .pipeline-strip {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .bot-node {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-btn);
+      padding: 10px 12px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      overflow: hidden;
+    }
+
+    .bot-node::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--profit), var(--accent-cyan));
+      opacity: 0.65;
+    }
+
+    /* Live Quotes */
     .quote-list {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 7px;
     }
 
     .quote-row {
@@ -489,6 +784,18 @@
       border: 1px solid var(--border-subtle);
       background: var(--bg-elevated);
       font-size: 12.5px;
+      cursor: pointer;
+      transition: border-color var(--motion-fast) var(--ease-out), background var(--motion-fast) var(--ease-out);
+    }
+
+    .quote-row:hover {
+      border-color: var(--accent-cyan);
+      background: var(--cyan-tint);
+    }
+
+    .quote-row.active {
+      border-color: var(--accent-border);
+      background: var(--accent-tint);
     }
 
     /* Tables */
@@ -506,18 +813,18 @@
     thead th {
       position: sticky;
       top: 0;
-      background: var(--bg-card);
+      background: var(--bg-card-solid);
       text-align: left;
-      font-size: 12px;
-      font-weight: 500;
+      font-size: 11.5px;
+      font-weight: 600;
       color: var(--text-2);
       padding: 10px 12px;
       border-bottom: 1px solid var(--border);
       white-space: nowrap;
+      z-index: 2;
     }
 
     th.align-right, td.align-right { text-align: right; }
-    th.align-center, td.align-center { text-align: center; }
 
     tbody tr {
       border-bottom: 1px solid var(--border-subtle);
@@ -547,6 +854,7 @@
     .profit-text { color: var(--profit); }
     .loss-text { color: var(--loss); }
     .warn-text { color: var(--warn); }
+    .cyan-text { color: var(--accent-cyan); }
 
     /* Filters & Inputs */
     .toolbar-row {
@@ -601,16 +909,17 @@
       border-radius: var(--radius-card);
       padding: 14px 16px;
       display: grid;
-      grid-template-columns: 150px minmax(0, 1fr) 150px;
+      grid-template-columns: 155px minmax(0, 1fr) 155px;
       gap: 14px;
       align-items: center;
       cursor: pointer;
-      transition: border-color var(--motion-fast) var(--ease-out), background var(--motion-fast) var(--ease-out);
+      transition: border-color var(--motion-fast) var(--ease-out), background var(--motion-fast) var(--ease-out), transform var(--motion-fast) var(--ease-out);
     }
 
     .hour-card:hover {
       border-color: var(--accent-border);
       background: var(--bg-hover);
+      transform: translateX(3px);
     }
 
     /* Plans & Two-col grids */
@@ -635,15 +944,19 @@
       flex-direction: column;
       gap: 6px;
       cursor: pointer;
-      transition: border-color var(--motion-fast) var(--ease-out);
+      transition: border-color var(--motion-fast) var(--ease-out), transform var(--motion-fast) var(--ease-out);
     }
-    .plan-item:hover { border-color: var(--accent-border); }
+    .plan-item:hover {
+      border-color: var(--accent-cyan);
+      transform: translateY(-1px);
+    }
 
     /* Drawer Overlay */
     .drawer-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(5, 8, 14, 0.58);
+      background: rgba(3, 6, 12, 0.65);
+      backdrop-filter: blur(4px);
       opacity: 0;
       pointer-events: none;
       transition: opacity var(--motion-base) var(--ease-out);
@@ -658,10 +971,10 @@
       position: fixed;
       top: 0;
       right: 0;
-      width: min(460px, 100vw);
+      width: min(470px, 100vw);
       height: 100dvh;
-      background: var(--bg-card);
-      border-left: 1px solid var(--border);
+      background: var(--bg-card-solid);
+      border-left: 1px solid var(--border-glow);
       box-shadow: var(--shadow-overlay);
       transform: translateX(100%);
       transition: transform var(--motion-base) var(--ease-out);
@@ -703,7 +1016,6 @@
       padding: 10px 12px;
     }
 
-    /* Empty & Skeleton States */
     .skeleton-line {
       height: 14px;
       border-radius: 4px;
@@ -729,21 +1041,29 @@
     }
 
     .view-panel { display: none; flex-direction: column; gap: 16px; }
-    .view-panel.active { display: flex; }
+    .view-panel.active {
+      display: flex;
+      animation: fadeSlideUp 280ms var(--ease-out);
+    }
 
-    /* Mobile Responsive */
     .sidebar-scrim {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.55);
+      background: rgba(0, 0, 0, 0.58);
       z-index: 35;
     }
     .sidebar-scrim.open { display: block; }
 
+    @media (max-width: 1240px) {
+      .mini-candles-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .analytics-trio { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .pipeline-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
     @media (max-width: 1120px) {
       .hero-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .split-grid { grid-template-columns: 1fr; }
+      .terminal-grid, .split-grid { grid-template-columns: 1fr; }
       .three-col { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
@@ -757,16 +1077,18 @@
       .sidebar.open { transform: translateX(0); }
       .mobile-menu-btn { display: inline-flex; }
       .topbar { padding: 0 14px; }
-      .content { padding: 14px 14px 32px; }
-      .hero-grid, .two-col, .three-col { grid-template-columns: 1fr; }
+      .content { padding: 14px 12px 32px; }
+      .hero-grid, .two-col, .three-col, .analytics-trio, .mini-candles-grid { grid-template-columns: 1fr; }
+      .pipeline-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .hour-card { grid-template-columns: 1fr; gap: 8px; }
       .hide-sm { display: none; }
     }
 
     @media print {
-      .sidebar, .topbar-actions, .mobile-menu-btn, .drawer-backdrop, .drawer { display: none !important; }
+      .sidebar, .topbar-actions, .mobile-menu-btn, .drawer-backdrop, .drawer, .ticker-tape { display: none !important; }
       html, body { background: #FFFFFF !important; color: #0F172A !important; }
-      .card { border-color: #CBD5E1 !important; break-inside: avoid; }
+      body::before, body::after { display: none !important; }
+      .card { border-color: #CBD5E1 !important; box-shadow: none !important; break-inside: avoid; }
     }
   </style>
 </head>
@@ -778,22 +1100,22 @@
       <div class="brand">
         <div class="brand-mark">
           <div class="brand-icon" aria-hidden="true">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
               <polyline points="16 7 22 7 22 13" />
             </svg>
           </div>
           <div>
             <div class="brand-title">FusionX Trading AI</div>
-            <div class="brand-sub">Autonomous Investor Portal</div>
+            <div class="brand-sub">Quant Desk Telemetry</div>
           </div>
         </div>
       </div>
 
       <nav class="nav-list" aria-label="Main navigation">
         <button class="nav-item" data-view="today" aria-current="page">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
-          <span>Today</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14v-4"/><path d="M12 14V7"/><path d="M17 14v-2"/></svg>
+          <span>Live Terminal</span>
           <span class="nav-badge" id="navTodayBadge">LIVE</span>
         </button>
         <button class="nav-item" data-view="hours">
@@ -834,7 +1156,7 @@
           </div>
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;font-size:11.5px;color:var(--text-3);padding:0 2px;">
-          <span class="status-inline"><span class="status-dot dot-profit" id="dbDot"></span><span id="dbStatusText">Supabase Sync</span></span>
+          <span class="status-inline"><span class="status-dot dot-profit dot-pulse" id="dbDot"></span><span id="dbStatusText">Supabase Sync</span></span>
           <span class="mono" id="latencyLabel">-- ms</span>
         </div>
       </div>
@@ -847,15 +1169,15 @@
           <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open navigation">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
           </button>
-          <h1 class="page-title" id="topbarTitle">Today — Live Session Command</h1>
+          <h1 class="page-title" id="topbarTitle">Today — Live Session Command &amp; Candle Desk</h1>
         </div>
 
         <div class="topbar-actions">
-          <div class="live-pill hide-sm" title="Live Supabase DB + Market Quote polling">
-            <span class="status-dot dot-profit" id="livePulseDot"></span>
+          <div class="live-pill hide-sm" title="Live Supabase DB + OHLCV Candle polling every 15s">
+            <span class="status-dot dot-profit dot-pulse" id="livePulseDot"></span>
             <span class="mono" id="lastSyncTime">Syncing...</span>
           </div>
-          <button class="btn-ghost" id="refreshBtn" title="Refresh live data">
+          <button class="btn-ghost" id="refreshBtn" title="Refresh live data & candles">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
             <span class="hide-sm">Refresh</span>
           </button>
@@ -871,7 +1193,15 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
           </button>
         </div>
+        <div class="sync-sweep"><div class="sync-sweep-bar" id="syncSweepBar"></div></div>
       </header>
+
+      <!-- Live Animated Market Marquee Ribbon -->
+      <div class="ticker-tape" aria-label="Live streaming quotes ticker">
+        <div class="ticker-track" id="tickerTrack">
+          <span class="meta-sub mono">Connecting live NSE &amp; NASDAQ telemetry stream...</span>
+        </div>
+      </div>
 
       <main class="content">
         <div class="status-banner" id="statusBanner">
@@ -879,16 +1209,17 @@
           <button class="btn-ghost" id="retryBannerBtn">Retry</button>
         </div>
 
-        <!-- VIEW 1: TODAY -->
+        <!-- VIEW 1: LIVE TERMINAL & COMMAND -->
         <section class="view-panel active" id="view-today">
+          <!-- Hero + 3 Supporting KPIs -->
           <div class="hero-grid" id="heroGrid">
             <div class="card hero-card">
               <div>
                 <div class="card-label">
                   <span>Cumulative net P&amp;L (INR)</span>
-                  <span class="mono" id="heroTargetStatus" style="color:var(--accent);font-weight:600;">--</span>
+                  <span class="mono cyan-text" id="heroTargetStatus" style="font-weight:600;">--</span>
                 </div>
-                <div class="hero-value mono" id="heroNetPnl" style="margin-top:6px;">--</div>
+                <div class="hero-value" id="heroNetPnl" style="margin-top:6px;">--</div>
                 <div class="meta-sub" id="heroCapitalSub" style="margin-top:4px;">Loading account balance...</div>
               </div>
               <div>
@@ -901,7 +1232,7 @@
             </div>
 
             <div class="card support-card">
-              <div class="card-label"><span>Liquid portfolio value</span></div>
+              <div class="card-label"><span>Liquid portfolio value</span><span class="status-dot dot-cyan dot-pulse"></span></div>
               <div class="support-value mono" id="kpiCapital">--</div>
               <div class="meta-sub" id="kpiPosture">--</div>
             </div>
@@ -919,32 +1250,59 @@
             </div>
           </div>
 
-          <div class="split-grid">
+          <!-- Interactive Pro Live Candlestick Terminal + Active Desk Watchlist -->
+          <div class="terminal-grid">
             <div class="card">
               <div class="section-header">
-                <div>
-                  <h2 class="section-title">Net equity trajectory (INR)</h2>
-                  <div class="meta-sub" id="chartSubtitle">Realized progression across executed orders</div>
+                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                  <span class="status-dot dot-profit dot-pulse"></span>
+                  <div>
+                    <h2 class="section-title" id="candleTitle">NVDA · Live Japanese Candlesticks + EMA 9/21 + Volume</h2>
+                    <div class="meta-sub mono" id="candleSubtitle">Real-time OHLCV stream · Switch ticker or timeframe</div>
+                  </div>
                 </div>
-                <div class="filter-group" id="chartRangeGroup">
-                  <button class="btn-ghost active" data-range="all">All-time</button>
-                  <button class="btn-ghost" data-range="today">Today</button>
-                  <button class="btn-ghost" data-range="7d">Daily curve</button>
+                <div class="filter-group" id="candleTimeframes">
+                  <button class="btn-ghost" data-iv="1m" data-rg="1d">1m</button>
+                  <button class="btn-ghost active" data-iv="5m" data-rg="1d">5m</button>
+                  <button class="btn-ghost" data-iv="15m" data-rg="5d">15m</button>
+                  <button class="btn-ghost" data-iv="1h" data-rg="1mo">1h</button>
+                  <button class="btn-ghost" data-iv="1d" data-rg="3mo">1D</button>
                 </div>
               </div>
-              <div class="chart-box" id="equityChart"></div>
+
+              <div class="filter-group" id="candleSymbols" style="margin-bottom:10px;">
+                <button class="btn-ghost active" data-sym="NVDA">NVDA</button>
+                <button class="btn-ghost" data-sym="META">META</button>
+                <button class="btn-ghost" data-sym="AAPL">AAPL</button>
+                <button class="btn-ghost" data-sym="TSLA">TSLA</button>
+                <button class="btn-ghost" data-sym="QQQ">QQQ</button>
+                <button class="btn-ghost" data-sym="^NSEI">NIFTY 50</button>
+                <button class="btn-ghost" data-sym="HINDUNILVR.NS">HINDUNILVR</button>
+                <button class="btn-ghost" data-sym="RELIANCE.NS">RELIANCE</button>
+              </div>
+
+              <div class="ohlc-bar mono" id="ohlcTelemetry">
+                <span>O: <strong id="ohlcO">--</strong></span>
+                <span>H: <strong id="ohlcH" class="profit-text">--</strong></span>
+                <span>L: <strong id="ohlcL" class="loss-text">--</strong></span>
+                <span>C: <strong id="ohlcC">--</strong></span>
+                <span>Vol: <strong id="ohlcV" class="cyan-text">--</strong></span>
+                <span style="margin-left:auto;" id="ohlcDelta">--</span>
+              </div>
+
+              <div class="chart-box-tall" id="candleMainChart"></div>
             </div>
 
             <div class="card" style="display:flex;flex-direction:column;gap:12px;">
               <div class="section-header" style="margin-bottom:0;">
                 <h2 class="section-title">Active desk &amp; live tape</h2>
-                <span class="mono meta-sub" id="tapeStatusLabel">Live</span>
+                <span class="mono meta-sub cyan-text" id="tapeStatusLabel">Live</span>
               </div>
               <div id="activePositionBox"></div>
-              <div style="border-top:1px solid var(--border-subtle);padding-top:10px;">
+              <div style="border-top:1px solid var(--border-subtle);padding-top:10px;flex:1;display:flex;flex-direction:column;">
                 <div class="card-label" style="margin-bottom:8px;">
-                  <span>Watched benchmarks &amp; leaders</span>
-                  <span class="mono" style="font-size:11px;">15s stream</span>
+                  <span>Watched benchmarks &amp; leaders (click to chart)</span>
+                  <span class="mono cyan-text" style="font-size:11px;">15s OHLCV</span>
                 </div>
                 <div class="quote-list" id="liveQuotesList">
                   <div class="skeleton-line"></div>
@@ -955,6 +1313,77 @@
             </div>
           </div>
 
+          <!-- 4-Panel Synchronized Live Mini-Candlestick Matrix -->
+          <div class="mini-candles-grid" id="miniCandlesGrid">
+            <div class="mini-candle-card" data-sym="^NSEI">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                <strong class="mono">^NSEI <span class="meta-sub" style="font-weight:400;">NIFTY 50</span></strong>
+                <span class="mono" id="mcPrice-0">--</span>
+              </div>
+              <div class="chart-box-mini" id="miniCandle-0"></div>
+            </div>
+            <div class="mini-candle-card" data-sym="QQQ">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                <strong class="mono">QQQ <span class="meta-sub" style="font-weight:400;">NASDAQ 100</span></strong>
+                <span class="mono" id="mcPrice-1">--</span>
+              </div>
+              <div class="chart-box-mini" id="miniCandle-1"></div>
+            </div>
+            <div class="mini-candle-card" data-sym="META">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                <strong class="mono">META <span class="meta-sub" style="font-weight:400;">Meta</span></strong>
+                <span class="mono" id="mcPrice-2">--</span>
+              </div>
+              <div class="chart-box-mini" id="miniCandle-2"></div>
+            </div>
+            <div class="mini-candle-card" data-sym="TSLA">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                <strong class="mono">TSLA <span class="meta-sub" style="font-weight:400;">Tesla</span></strong>
+                <span class="mono" id="mcPrice-3">--</span>
+              </div>
+              <div class="chart-box-mini" id="miniCandle-3"></div>
+            </div>
+          </div>
+
+          <!-- Tri-Chart Analytics Deck: Equity Curve + Ticker Attribution + Win/Loss Gauge -->
+          <div class="analytics-trio">
+            <div class="card">
+              <div class="section-header">
+                <div>
+                  <h2 class="section-title">Net equity trajectory (INR)</h2>
+                  <div class="meta-sub" id="chartSubtitle">Realized progression across executed orders</div>
+                </div>
+                <div class="filter-group" id="chartRangeGroup">
+                  <button class="btn-ghost active" data-range="all">All-time</button>
+                  <button class="btn-ghost" data-range="today">Today</button>
+                  <button class="btn-ghost" data-range="7d">Daily</button>
+                </div>
+              </div>
+              <div class="chart-box" id="equityChart"></div>
+            </div>
+
+            <div class="card">
+              <div class="section-header">
+                <div>
+                  <h2 class="section-title">Ticker P&amp;L attribution (INR)</h2>
+                  <div class="meta-sub">Realized winners vs. clipped stop-losses</div>
+                </div>
+              </div>
+              <div class="chart-box" id="tickerPnlChart"></div>
+            </div>
+
+            <div class="card">
+              <div class="section-header">
+                <div>
+                  <h2 class="section-title">Win-rate &amp; profit pulse</h2>
+                  <div class="meta-sub">Audited execution accuracy &amp; payoff ratio</div>
+                </div>
+              </div>
+              <div class="chart-box" id="winGaugeChart"></div>
+            </div>
+          </div>
+
+          <!-- Latest Audited Executions Preview -->
           <div class="card">
             <div class="section-header">
               <div>
@@ -986,27 +1415,40 @@
         <!-- VIEW 2: HOURS -->
         <section class="view-panel" id="view-hours">
           <div class="card">
-            <div class="toolbar-row">
+            <div class="toolbar-row" style="margin-bottom:14px;">
               <div>
-                <h2 class="section-title">Hour-by-hour execution timeline</h2>
-                <div class="meta-sub">Inspect what bots scanned, entered, exited, or blocked in every India-time hour slot</div>
+                <h2 class="section-title">Hour-by-hour execution &amp; equity pulse</h2>
+                <div class="meta-sub">Inspect hourly P&amp;L bars, running equity curve, and bot actions in every India-time window</div>
               </div>
               <div class="filter-group" id="hourDayFilter"></div>
             </div>
+            <div class="chart-box" id="hourlyChart" style="height:230px;"></div>
           </div>
           <div class="timeline-list" id="hoursTimeline"></div>
         </section>
 
         <!-- VIEW 3: PAST DAYS -->
         <section class="view-panel" id="view-days">
-          <div class="card">
-            <div class="section-header">
-              <div>
-                <h2 class="section-title">Cumulative daily equity curve</h2>
-                <div class="meta-sub">Day-over-day INR progression from Desk Launch (Nov 22) to current session</div>
+          <div class="split-grid">
+            <div class="card">
+              <div class="section-header">
+                <div>
+                  <h2 class="section-title">Daily NSE vs. US P&amp;L &amp; cumulative curve</h2>
+                  <div class="meta-sub">Grouped session attribution + total net equity overlay</div>
+                </div>
               </div>
+              <div class="chart-box" id="dailyBarChart" style="height:260px;"></div>
             </div>
-            <div class="chart-box" id="dailyBarChart" style="height:240px;"></div>
+
+            <div class="card">
+              <div class="section-header">
+                <div>
+                  <h2 class="section-title">Market &amp; risk radar profile</h2>
+                  <div class="meta-sub">Multi-axis desk health across win rate, expectancy, discipline &amp; control</div>
+                </div>
+              </div>
+              <div class="chart-box" id="deskRadarChart" style="height:260px;"></div>
+            </div>
           </div>
 
           <div class="card">
@@ -1061,6 +1503,43 @@
 
         <!-- VIEW 5: AUDIT LEDGER & AI DESK -->
         <section class="view-panel" id="view-ledger">
+          <!-- 6-Bot Neural Pipeline Strip -->
+          <div class="card">
+            <div class="section-header">
+              <div>
+                <h2 class="section-title">6-bot autonomous execution pipeline</h2>
+                <div class="meta-sub">Live multi-agent decision flow from discovery to risk sizing and order execution</div>
+              </div>
+              <span class="status-inline cyan-text mono" style="font-size:11.5px;"><span class="status-dot dot-cyan dot-pulse"></span>6/6 AGENTS ONLINE</span>
+            </div>
+            <div class="pipeline-strip">
+              <div class="bot-node">
+                <div style="display:flex;justify-content:space-between;align-items:center;"><strong>1. Scout</strong><span class="status-dot dot-profit dot-pulse"></span></div>
+                <div class="meta-sub">Momentum &amp; RVOL scanner</div>
+              </div>
+              <div class="bot-node">
+                <div style="display:flex;justify-content:space-between;align-items:center;"><strong>2. Chart</strong><span class="status-dot dot-profit dot-pulse"></span></div>
+                <div class="meta-sub">VWAP, EMA &amp; VCP structure</div>
+              </div>
+              <div class="bot-node">
+                <div style="display:flex;justify-content:space-between;align-items:center;"><strong>3. News</strong><span class="status-dot dot-cyan dot-pulse"></span></div>
+                <div class="meta-sub">Catalyst &amp; earnings check</div>
+              </div>
+              <div class="bot-node">
+                <div style="display:flex;justify-content:space-between;align-items:center;"><strong>4. Skeptic</strong><span class="status-dot dot-warn"></span></div>
+                <div class="meta-sub">Fade &amp; trap rejection gate</div>
+              </div>
+              <div class="bot-node">
+                <div style="display:flex;justify-content:space-between;align-items:center;"><strong>5. Sizer</strong><span class="status-dot dot-profit"></span></div>
+                <div class="meta-sub">1.5% risk &amp; slot budget</div>
+              </div>
+              <div class="bot-node">
+                <div style="display:flex;justify-content:space-between;align-items:center;"><strong>6. Executor</strong><span class="status-dot dot-profit dot-pulse"></span></div>
+                <div class="meta-sub">Order fills &amp; profit lock</div>
+              </div>
+            </div>
+          </div>
+
           <div class="card">
             <div class="toolbar-row" style="margin-bottom:12px;">
               <div class="search-wrap">
@@ -1100,9 +1579,10 @@
             </div>
           </div>
 
+          <!-- AI Pipeline, Automations & Guardrails -->
           <div class="three-col">
             <div class="card">
-              <div class="section-header"><h2 class="section-title">6-bot desk feed</h2></div>
+              <div class="section-header"><h2 class="section-title">Live bot telemetry log</h2></div>
               <div style="display:flex;flex-direction:column;gap:8px;" id="botFeedList"></div>
             </div>
             <div class="card">
@@ -1133,6 +1613,7 @@
   </aside>
 
   <script>
+    // Public read-only Supabase connection (RLS permits SELECT only)
     const SUPABASE_URL = "https://iuiyzemvfirbykysbvxt.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml1aXl6ZW12ZmlyYnlreXNidnh0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTU1OTc5NDEsImV4cCI6MjExMTE3Mzk0MX0.a49-HhV5wzyb1lAuq4C1TP9U9ut_TWy3WtSN5xA7bi0";
     const QUOTES_ENDPOINT = `${SUPABASE_URL}/functions/v1/market-quotes`;
@@ -1145,15 +1626,29 @@
       plans: [],
       activity: [],
       quotes: {},
+      activeCandle: null,
+      selectedSymbol: "NVDA",
+      selectedInterval: "5m",
+      selectedRange: "1d",
       selectedHourDay: "2026-11-25",
       chartRange: "all",
       ledgerFilter: "all",
       ledgerQuery: "",
-      equityChart: null,
-      dailyChart: null,
+      lastHeroVal: null,
+      charts: {},
+      miniCharts: [null, null, null, null],
+      countdownSec: 15,
     };
 
+    const MINI_SYMS = ["^NSEI", "QQQ", "META", "TSLA"];
     const $ = (id) => document.getElementById(id);
+
+    function getChart(key, domId) {
+      const el = $(domId);
+      if (!el || typeof echarts === "undefined") return null;
+      if (!state.charts[key]) state.charts[key] = echarts.init(el);
+      return state.charts[key];
+    }
 
     function fmtInr(val, signed = false) {
       const n = Number(val || 0);
@@ -1170,7 +1665,26 @@
     }
 
     function esc(s) {
-      return String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[c]));
+      return String(s ?? "").replace(/[&<>\"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[c]));
+    }
+
+    function calcEMA(closes, period) {
+      if (!closes.length) return [];
+      const k = 2 / (period + 1);
+      const out = [];
+      let ema = closes[0];
+      for (let i = 0; i < closes.length; i++) {
+        ema = i === 0 ? closes[0] : closes[i] * k + ema * (1 - k);
+        out.push(Number(ema.toFixed(2)));
+      }
+      return out;
+    }
+
+    function flashEl(el, positive) {
+      if (!el) return;
+      el.classList.remove("flash-up", "flash-down");
+      void el.offsetWidth;
+      el.classList.add(positive ? "flash-up" : "flash-down");
     }
 
     async function sbFetch(path) {
@@ -1182,8 +1696,28 @@
       return res.json();
     }
 
+    async function fetchMainCandles() {
+      try {
+        const url = `${QUOTES_ENDPOINT}?symbols=${encodeURIComponent(state.selectedSymbol)}&interval=${encodeURIComponent(state.selectedInterval)}&range=${encodeURIComponent(state.selectedRange)}`;
+        const res = await fetch(url, {
+          headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
+          cache: "no-store",
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        const item = data?.quotes?.[state.selectedSymbol];
+        if (item && Array.isArray(item.candles) && item.candles.length) {
+          state.activeCandle = item;
+        }
+      } catch {
+        // Fallback smoothly to cached watchlist quote candles
+      }
+      renderMainCandleChart();
+    }
+
     async function fetchAllData() {
       const t0 = performance.now();
+      state.countdownSec = 15;
       try {
         const [deskRows, days, hours, trades, plans, activity] = await Promise.all([
           sbFetch("desk_state?id=eq.1"),
@@ -1201,7 +1735,7 @@
         state.plans = plans || [];
         state.activity = activity || [];
 
-        $("dbDot").className = "status-dot dot-profit";
+        $("dbDot").className = "status-dot dot-profit dot-pulse";
         $("dbStatusText").textContent = "Supabase Live";
         $("latencyLabel").textContent = `${Math.round(performance.now() - t0)} ms`;
       } catch (err) {
@@ -1219,9 +1753,14 @@
         if (!qRes.ok) throw new Error(`Quotes ${qRes.status}`);
         const qData = await qRes.json();
         state.quotes = qData.quotes || {};
+        if (state.selectedInterval === "5m" && state.selectedRange === "1d" && state.quotes[state.selectedSymbol]?.candles?.length) {
+          state.activeCandle = state.quotes[state.selectedSymbol];
+        } else {
+          await fetchMainCandles();
+        }
         $("statusBanner").classList.remove("show");
         $("tapeStatusLabel").textContent = `${qData.latencyMs || "--"} ms`;
-      } catch (qErr) {
+      } catch {
         $("tapeStatusLabel").textContent = "Cached";
       }
 
@@ -1246,6 +1785,7 @@
     }
 
     function renderAll() {
+      renderTickerTape();
       renderToday();
       renderHours();
       renderPastDays();
@@ -1259,6 +1799,64 @@
       $("navDaysBadge").textContent = state.days.length;
       $("navPlansBadge").textContent = state.plans.filter((p) => p.plan_type === "UPCOMING").length;
       $("navTradesBadge").textContent = state.trades.length;
+    }
+
+    function renderTickerTape() {
+      const order = ["^NSEI", "QQQ", "SPY", "NVDA", "META", "AAPL", "TSLA", "MSFT", "AMZN", "GOOGL", "HINDUNILVR.NS", "RELIANCE.NS", "BRITANNIA.NS", "COLPAL.NS"];
+      const chips = order.map((sym) => {
+        const q = state.quotes[sym];
+        if (!q) return "";
+        const up = q.changePct >= 0;
+        const pStr = q.currency === "INR" ? `₹${q.price.toLocaleString("en-IN", { minimumFractionDigits: 2 })}` : `$${q.price.toFixed(2)}`;
+        return `<button class="tape-chip mono" onclick='selectCandleSymbol(${JSON.stringify(sym)})'>
+          <span class="status-dot ${up ? "dot-profit" : "dot-loss"}"></span>
+          <strong>${esc(sym.replace(".NS", ""))}</strong>
+          <span>${pStr}</span>
+          <span class="${up ? "profit-text" : "loss-text"}">${up ? "+" : ""}${q.changePct.toFixed(2)}%</span>
+        </button>`;
+      }).filter(Boolean).join("");
+      if (!chips) return;
+      $("tickerTrack").innerHTML = chips + chips;
+    }
+
+    function selectCandleSymbol(sym) {
+      state.selectedSymbol = sym;
+      document.querySelectorAll("#candleSymbols button").forEach((b) => b.classList.toggle("active", b.dataset.sym === sym));
+      document.querySelectorAll(".mini-candle-card").forEach((c) => c.classList.toggle("active", c.dataset.sym === sym));
+      if (state.selectedInterval === "5m" && state.selectedRange === "1d" && state.quotes[sym]?.candles?.length) {
+        state.activeCandle = state.quotes[sym];
+        renderMainCandleChart();
+      } else {
+        fetchMainCandles();
+      }
+      renderQuoteRows();
+    }
+
+    function renderQuoteRows() {
+      const watchTickers = [
+        { sym: "^NSEI", label: "NIFTY 50" },
+        { sym: "QQQ", label: "NASDAQ 100" },
+        { sym: "NVDA", label: "NVIDIA" },
+        { sym: "META", label: "Meta Platforms" },
+        { sym: "AAPL", label: "Apple" },
+        { sym: "TSLA", label: "Tesla" },
+        { sym: "HINDUNILVR.NS", label: "HUL" },
+      ];
+      $("liveQuotesList").innerHTML = watchTickers.map((w) => {
+        const q = state.quotes[w.sym];
+        const active = w.sym === state.selectedSymbol ? "active" : "";
+        if (!q) return `<div class="quote-row ${active}"><span>${w.label}</span><span class="mono meta-sub">--</span></div>`;
+        const up = q.changePct >= 0;
+        const pStr = q.currency === "INR" ? `₹${q.price.toLocaleString("en-IN", { minimumFractionDigits: 2 })}` : `$${q.price.toFixed(2)}`;
+        return `
+          <div class="quote-row ${active}" onclick='selectCandleSymbol(${JSON.stringify(w.sym)})'>
+            <div><strong class="mono">${esc(w.sym.replace(".NS", ""))}</strong> <span class="meta-sub">${esc(w.label)}</span></div>
+            <div class="mono" style="text-align:right;">
+              <span>${pStr}</span>
+              <span class="${up ? "profit-text" : "loss-text"}" style="margin-left:8px;">${up ? "+" : ""}${q.changePct.toFixed(2)}%</span>
+            </div>
+          </div>`;
+      }).join("");
     }
 
     function renderToday() {
@@ -1276,10 +1874,15 @@
       const heroEl = $("heroNetPnl");
       heroEl.textContent = fmtInr(totalNet, true);
       heroEl.className = `hero-value mono ${totalNet >= 0 ? "profit-text" : "loss-text"}`;
-      $("heroCapitalSub").textContent = `Base ₹${Number(d.capital_base_inr || 617340).toLocaleString("en-IN")} · Current ${fmtInr(Number(d.capital_base_inr || 617340) + totalNet)}`;
+      if (state.lastHeroVal !== null && state.lastHeroVal !== totalNet) {
+        flashEl(heroEl, totalNet >= state.lastHeroVal);
+      }
+      state.lastHeroVal = totalNet;
+
+      $("heroCapitalSub").textContent = `Base ₹${Number(d.capital_base_inr || 617340).toLocaleString("en-IN")} · Equity ${fmtInr(Number(d.capital_base_inr || 617340) + totalNet)}`;
       $("heroGoalPct").textContent = `${((todayNet / target) * 100).toFixed(1)}%`;
       $("heroGoalBar").style.width = `${goalPct}%`;
-      $("heroTargetStatus").textContent = todayNet >= target ? "DAILY TARGET SURPASSED" : (openTrades.length ? "SESSION LIVE" : "STANDBY");
+      $("heroTargetStatus").textContent = todayNet >= target ? "DAILY TARGET SURPASSED" : (openTrades.length ? "SESSION LIVE" : "US PREP STANDBY");
 
       $("kpiCapital").textContent = fmtInr(Number(d.liquid_reserve_inr || 619975) + floatingInr);
       $("kpiPosture").textContent = openTrades.length ? `${openTrades.length} active position(s)` : "100% liquid cash · zero overnight carry";
@@ -1298,12 +1901,12 @@
       const posBox = $("activePositionBox");
       if (!openTrades.length) {
         posBox.innerHTML = `
-          <div style="border:1px solid var(--border);background:var(--bg-elevated);border-radius:var(--radius-btn);padding:12px 14px;">
+          <div style="border:1px solid var(--accent-border);background:linear-gradient(135deg,var(--accent-tint),var(--bg-elevated));border-radius:var(--radius-btn);padding:12px 14px;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
-              <span class="status-inline"><span class="status-dot dot-profit"></span><strong>100% Cash · Profit Locked</strong></span>
+              <span class="status-inline"><span class="status-dot dot-profit dot-pulse"></span><strong>100% Cash · Profit Locked</strong></span>
               <span class="mono meta-sub">0 open</span>
             </div>
-            <div class="meta-sub">NSE closed in +₹2,635.00 net green. US automated scalping activates 20:05–23:45 IST.</div>
+            <div class="meta-sub">NSE closed +₹2,635.00 net green. US automated scalping fires 20:05–23:45 IST.</div>
           </div>`;
       } else {
         posBox.innerHTML = openTrades.map((p) => {
@@ -1319,38 +1922,384 @@
         }).join("");
       }
 
-      const watchTickers = [
-        { sym: "^NSEI", label: "NIFTY 50" },
-        { sym: "QQQ", label: "NASDAQ 100 (QQQ)" },
-        { sym: "NVDA", label: "NVIDIA" },
-        { sym: "META", label: "Meta Platforms" },
-        { sym: "AAPL", label: "Apple" },
-        { sym: "TSLA", label: "Tesla" },
-      ];
-      $("liveQuotesList").innerHTML = watchTickers.map((w) => {
-        const q = state.quotes[w.sym];
-        if (!q) return `<div class="quote-row"><span>${w.label}</span><span class="mono meta-sub">--</span></div>`;
-        const up = q.changePct >= 0;
-        const pStr = q.currency === "INR" ? `₹${q.price.toLocaleString("en-IN", { minimumFractionDigits: 2 })}` : `$${q.price.toFixed(2)}`;
-        return `
-          <div class="quote-row">
-            <div><strong>${esc(w.sym)}</strong> <span class="meta-sub">${esc(w.label)}</span></div>
-            <div class="mono" style="text-align:right;">
-              <span>${pStr}</span>
-              <span class="${up ? "profit-text" : "loss-text"}" style="margin-left:8px;">${up ? "+" : ""}${q.changePct.toFixed(2)}%</span>
-            </div>
-          </div>`;
-      }).join("");
+      renderQuoteRows();
 
       const recent = [...state.trades].sort((a, b) => b.sort_index - a.sort_index).slice(0, 6);
       $("todayTradesPreview").innerHTML = recent.map((t) => renderTradeRow(t, false)).join("");
 
+      renderMainCandleChart();
+      renderMiniCandles();
       renderEquityChart();
+      renderTickerAttributionChart();
+      renderWinGaugeChart();
+    }
+
+    function renderMainCandleChart() {
+      const chart = getChart("candleMain", "candleMainChart");
+      const q = state.activeCandle || state.quotes[state.selectedSymbol];
+      if (!chart || !q || !Array.isArray(q.candles) || !q.candles.length) return;
+
+      const isLight = document.documentElement.getAttribute("data-theme") === "light";
+      const upColor = isLight ? "#059669" : "#10B981";
+      const downColor = isLight ? "#E11D48" : "#F43F5E";
+      const gridColor = isLight ? "#E2E8F0" : "rgba(148,163,184,0.12)";
+      const labelColor = isLight ? "#64748B" : "#94A3B8";
+      const curSym = q.currency === "INR" ? "₹" : "$";
+
+      const candles = q.candles;
+      const times = candles.map((c) => c.time);
+      const ohlc = candles.map((c) => [c.open, c.close, c.low, c.high]);
+      const closes = candles.map((c) => c.close);
+      const ema9 = calcEMA(closes, 9);
+      const ema21 = calcEMA(closes, 21);
+      const vols = candles.map((c) => ({
+        value: c.volume,
+        itemStyle: { color: c.close >= c.open ? "rgba(16,185,129,0.45)" : "rgba(244,63,94,0.45)" },
+      }));
+
+      const last = candles[candles.length - 1];
+      $("candleTitle").textContent = `${state.selectedSymbol} (${state.selectedInterval}) · Live Candlesticks + EMA 9/21 + Volume`;
+      $("candleSubtitle").textContent = `State: ${q.marketState} · Day H ${curSym}${q.dayHigh} · Day L ${curSym}${q.dayLow} · ${candles.length} live bars`;
+      $("ohlcO").textContent = `${curSym}${last.open.toFixed(2)}`;
+      $("ohlcH").textContent = `${curSym}${last.high.toFixed(2)}`;
+      $("ohlcL").textContent = `${curSym}${last.low.toFixed(2)}`;
+      $("ohlcC").textContent = `${curSym}${last.close.toFixed(2)}`;
+      $("ohlcV").textContent = Number(q.volume || last.volume || 0).toLocaleString("en-IN");
+      const deltaEl = $("ohlcDelta");
+      deltaEl.textContent = `${q.changePct >= 0 ? "+" : ""}${q.changePct.toFixed(2)}% (${curSym}${q.price.toFixed(2)})`;
+      deltaEl.className = q.changePct >= 0 ? "profit-text" : "loss-text";
+
+      chart.setOption({
+        animationDuration: 420,
+        animationEasing: "cubicOut",
+        axisPointer: { link: [{ xAxisIndex: "all" }] },
+        tooltip: {
+          trigger: "axis",
+          axisPointer: { type: "cross", lineStyle: { color: "#22D3EE", width: 1, type: "dashed" } },
+          backgroundColor: isLight ? "#FFFFFF" : "#0B111E",
+          borderColor: isLight ? "#CBD5E1" : "rgba(34,211,238,0.35)",
+          textStyle: { color: isLight ? "#0F172A" : "#F8FAFC", fontFamily: "IBM Plex Mono", fontSize: 11.5 },
+          formatter: (params) => {
+            const c = params.find((p) => p.seriesType === "candlestick");
+            if (!c) return "";
+            const d = candles[c.dataIndex];
+            if (!d) return "";
+            return `<strong>${state.selectedSymbol} · ${d.time} IST</strong><br/>
+              O: ${curSym}${d.open.toFixed(2)} &nbsp; H: ${curSym}${d.high.toFixed(2)}<br/>
+              L: ${curSym}${d.low.toFixed(2)} &nbsp; C: <strong>${curSym}${d.close.toFixed(2)}</strong><br/>
+              Vol: ${Number(d.volume).toLocaleString("en-IN")}`;
+          },
+        },
+        grid: [
+          { left: 56, right: 16, top: 18, height: "58%" },
+          { left: 56, right: 16, top: "74%", height: "16%" },
+        ],
+        xAxis: [
+          {
+            type: "category",
+            data: times,
+            boundaryGap: true,
+            axisLine: { lineStyle: { color: gridColor } },
+            axisLabel: { show: false },
+            axisTick: { show: false },
+          },
+          {
+            type: "category",
+            gridIndex: 1,
+            data: times,
+            boundaryGap: true,
+            axisLine: { lineStyle: { color: gridColor } },
+            axisLabel: { color: labelColor, fontFamily: "IBM Plex Mono", fontSize: 10 },
+            axisTick: { show: false },
+          },
+        ],
+        yAxis: [
+          {
+            scale: true,
+            splitLine: { lineStyle: { color: gridColor, type: "dashed" } },
+            axisLabel: { color: labelColor, fontFamily: "IBM Plex Mono", fontSize: 10.5 },
+          },
+          {
+            gridIndex: 1,
+            scale: true,
+            splitNumber: 2,
+            axisLabel: { show: false },
+            axisLine: { show: false },
+            splitLine: { show: false },
+          },
+        ],
+        series: [
+          {
+            name: "Candles",
+            type: "candlestick",
+            data: ohlc,
+            itemStyle: {
+              color: upColor,
+              color0: downColor,
+              borderColor: upColor,
+              borderColor0: downColor,
+            },
+          },
+          {
+            name: "EMA 9",
+            type: "line",
+            data: ema9,
+            smooth: true,
+            showSymbol: false,
+            lineStyle: { width: 1.5, color: "#22D3EE" },
+          },
+          {
+            name: "EMA 21",
+            type: "line",
+            data: ema21,
+            smooth: true,
+            showSymbol: false,
+            lineStyle: { width: 1.5, color: "#F59E0B", type: "dashed" },
+          },
+          {
+            name: "Volume",
+            type: "bar",
+            xAxisIndex: 1,
+            yAxisIndex: 1,
+            data: vols,
+          },
+        ],
+      }, true);
+    }
+
+    function renderMiniCandles() {
+      const isLight = document.documentElement.getAttribute("data-theme") === "light";
+      const upColor = isLight ? "#059669" : "#10B981";
+      const downColor = isLight ? "#E11D48" : "#F43F5E";
+
+      MINI_SYMS.forEach((sym, idx) => {
+        const el = $(`miniCandle-${idx}`);
+        const priceEl = $(`mcPrice-${idx}`);
+        if (!el || typeof echarts === "undefined") return;
+        const q = state.quotes[sym];
+        if (!q || !Array.isArray(q.candles) || !q.candles.length) return;
+
+        const curSym = q.currency === "INR" ? "₹" : "$";
+        const up = q.changePct >= 0;
+        priceEl.innerHTML = `<span class="${up ? "profit-text" : "loss-text"}">${curSym}${q.price.toLocaleString("en-IN", { maximumFractionDigits: 2 })} (${up ? "+" : ""}${q.changePct.toFixed(2)}%)</span>`;
+
+        if (!state.miniCharts[idx]) state.miniCharts[idx] = echarts.init(el);
+        const recent = q.candles.slice(-26);
+        state.miniCharts[idx].setOption({
+          animationDuration: 350,
+          grid: { left: 2, right: 2, top: 6, bottom: 4 },
+          tooltip: {
+            trigger: "axis",
+            backgroundColor: isLight ? "#FFFFFF" : "#0B111E",
+            borderColor: isLight ? "#CBD5E1" : "rgba(34,211,238,0.35)",
+            textStyle: { color: isLight ? "#0F172A" : "#F8FAFC", fontFamily: "IBM Plex Mono", fontSize: 10.5 },
+            formatter: (ps) => {
+              const p = ps[0];
+              const d = recent[p.dataIndex];
+              return d ? `${d.time} · C ${curSym}${d.close.toFixed(2)}` : "";
+            },
+          },
+          xAxis: { type: "category", data: recent.map((c) => c.time), show: false },
+          yAxis: { type: "value", scale: true, show: false },
+          series: [{
+            type: "candlestick",
+            data: recent.map((c) => [c.open, c.close, c.low, c.high]),
+            itemStyle: { color: upColor, color0: downColor, borderColor: upColor, borderColor0: downColor },
+          }],
+        });
+      });
+    }
+
+    function renderEquityChart() {
+      const chart = getChart("equity", "equityChart");
+      if (!chart) return;
+      const isLight = document.documentElement.getAttribute("data-theme") === "light";
+      const gridColor = isLight ? "#E2E8F0" : "rgba(148,163,184,0.12)";
+      const labelColor = isLight ? "#64748B" : "#94A3B8";
+      const accent = isLight ? "#059669" : "#10B981";
+
+      let labels = ["Start"];
+      let values = [0];
+
+      if (state.chartRange === "7d") {
+        labels = ["Launch", ...state.days.map((d) => d.session_date.slice(5))];
+        values = [0, ...state.days.map((d) => Number(d.cumulative_pnl_inr))];
+        $("chartSubtitle").textContent = "Cumulative daily equity from launch (Nov 22 – Present)";
+      } else {
+        const list = state.chartRange === "today"
+          ? state.trades.filter((t) => t.session_date === (state.days[state.days.length - 1]?.session_date || "2026-11-25"))
+          : state.trades;
+        let run = state.chartRange === "today" ? -1632.0 : 0;
+        labels = [state.chartRange === "today" ? "Prev Close" : "Start"];
+        values = [run];
+        for (const t of list) {
+          run += Number(t.pnl_inr || 0);
+          labels.push(t.ticker.replace(".NS", ""));
+          values.push(Number(run.toFixed(2)));
+        }
+        $("chartSubtitle").textContent = state.chartRange === "today"
+          ? "Today's recovery path from -₹1,632.00 to +₹2,635.00 net"
+          : "Order-by-order cumulative net P&L progression (INR)";
+      }
+
+      chart.setOption({
+        animationDuration: 550,
+        grid: { left: 54, right: 16, top: 16, bottom: 26 },
+        tooltip: {
+          trigger: "axis",
+          backgroundColor: isLight ? "#FFFFFF" : "#0B111E",
+          borderColor: isLight ? "#CBD5E1" : "rgba(16,185,129,0.35)",
+          textStyle: { color: isLight ? "#0F172A" : "#F8FAFC", fontFamily: "IBM Plex Mono", fontSize: 12 },
+          formatter: (params) => `${params[0].name}<br/><strong>${fmtInr(params[0].value, true)}</strong>`,
+        },
+        xAxis: {
+          type: "category",
+          data: labels,
+          axisLine: { lineStyle: { color: gridColor } },
+          axisLabel: { color: labelColor, fontSize: 10.5, fontFamily: "IBM Plex Mono" },
+          axisTick: { show: false },
+        },
+        yAxis: {
+          type: "value",
+          splitLine: { lineStyle: { color: gridColor, type: "dashed" } },
+          axisLabel: {
+            color: labelColor,
+            fontSize: 10.5,
+            fontFamily: "IBM Plex Mono",
+            formatter: (v) => (v >= 0 ? `₹${v}` : `-₹${Math.abs(v)}`),
+          },
+        },
+        series: [{
+          type: "line",
+          data: values,
+          smooth: 0.32,
+          symbol: "circle",
+          symbolSize: 6,
+          lineStyle: { width: 2.5, color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{ offset: 0, color: "#22D3EE" }, { offset: 1, color: accent }]) },
+          itemStyle: { color: "#22D3EE", borderColor: accent, borderWidth: 1.5 },
+          areaStyle: {
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: isLight ? "rgba(5,150,105,0.22)" : "rgba(34,211,238,0.24)" },
+              { offset: 1, color: "rgba(16,185,129,0)" },
+            ]),
+          },
+        }],
+      });
+    }
+
+    function renderTickerAttributionChart() {
+      const chart = getChart("tickerPnl", "tickerPnlChart");
+      if (!chart) return;
+      const isLight = document.documentElement.getAttribute("data-theme") === "light";
+      const gridColor = isLight ? "#E2E8F0" : "rgba(148,163,184,0.12)";
+      const labelColor = isLight ? "#64748B" : "#94A3B8";
+
+      const byTicker = {};
+      for (const t of state.trades) {
+        const key = t.ticker.replace(".NS", "");
+        byTicker[key] = (byTicker[key] || 0) + Number(t.pnl_inr || 0);
+      }
+      const sorted = Object.entries(byTicker).sort((a, b) => a[1] - b[1]);
+
+      chart.setOption({
+        animationDuration: 550,
+        grid: { left: 82, right: 20, top: 12, bottom: 24 },
+        tooltip: {
+          trigger: "axis",
+          backgroundColor: isLight ? "#FFFFFF" : "#0B111E",
+          borderColor: isLight ? "#CBD5E1" : "rgba(34,211,238,0.3)",
+          textStyle: { color: isLight ? "#0F172A" : "#F8FAFC", fontFamily: "IBM Plex Mono", fontSize: 11.5 },
+          formatter: (ps) => `${ps[0].name}: <strong>${fmtInr(ps[0].value, true)}</strong>`,
+        },
+        xAxis: {
+          type: "value",
+          splitLine: { lineStyle: { color: gridColor, type: "dashed" } },
+          axisLabel: { color: labelColor, fontFamily: "IBM Plex Mono", fontSize: 10 },
+        },
+        yAxis: {
+          type: "category",
+          data: sorted.map(([k]) => k),
+          axisLine: { lineStyle: { color: gridColor } },
+          axisLabel: { color: labelColor, fontFamily: "IBM Plex Mono", fontSize: 10.5 },
+          axisTick: { show: false },
+        },
+        series: [{
+          type: "bar",
+          barWidth: 13,
+          data: sorted.map(([, v]) => ({
+            value: Number(v.toFixed(2)),
+            itemStyle: {
+              borderRadius: v >= 0 ? [0, 4, 4, 0] : [4, 0, 0, 4],
+              color: v >= 0
+                ? new echarts.graphic.LinearGradient(0, 0, 1, 0, [{ offset: 0, color: "#10B981" }, { offset: 1, color: "#22D3EE" }])
+                : "#F43F5E",
+            },
+          })),
+        }],
+      });
+    }
+
+    function renderWinGaugeChart() {
+      const chart = getChart("winGauge", "winGaugeChart");
+      if (!chart) return;
+      const isLight = document.documentElement.getAttribute("data-theme") === "light";
+      const closed = state.trades.filter((t) => t.status !== "OPEN");
+      const wins = closed.filter((t) => Number(t.pnl_inr) > 0);
+      const losses = closed.filter((t) => Number(t.pnl_inr) <= 0);
+      const grossWin = wins.reduce((s, t) => s + Number(t.pnl_inr || 0), 0);
+      const grossLoss = Math.abs(losses.reduce((s, t) => s + Number(t.pnl_inr || 0), 0));
+      const pf = grossLoss > 0 ? (grossWin / grossLoss).toFixed(2) : "∞";
+      const wr = closed.length ? Number(((wins.length / closed.length) * 100).toFixed(1)) : 0;
+
+      chart.setOption({
+        animationDuration: 650,
+        series: [{
+          type: "gauge",
+          startAngle: 205,
+          endAngle: -25,
+          min: 0,
+          max: 100,
+          radius: "90%",
+          center: ["50%", "58%"],
+          progress: {
+            show: true,
+            width: 14,
+            roundCap: true,
+            itemStyle: {
+              color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+                { offset: 0, color: "#22D3EE" },
+                { offset: 1, color: "#10B981" },
+              ]),
+            },
+          },
+          pointer: { show: false },
+          axisLine: { roundCap: true, lineStyle: { width: 14, color: [[1, isLight ? "#E2E8F0" : "rgba(148,163,184,0.16)"]] } },
+          axisTick: { show: false },
+          splitLine: { show: false },
+          axisLabel: { show: false },
+          title: {
+            offsetCenter: [0, "26%"],
+            color: isLight ? "#475569" : "#94A3B8",
+            fontFamily: "IBM Plex Mono",
+            fontSize: 11,
+          },
+          detail: {
+            valueAnimation: true,
+            offsetCenter: [0, "-4%"],
+            fontSize: 28,
+            fontWeight: 700,
+            fontFamily: "IBM Plex Mono",
+            color: isLight ? "#059669" : "#34D399",
+            formatter: "{value}%",
+          },
+          data: [{ value: wr, name: `PF ${pf}x · ${wins.length}W / ${losses.length}L` }],
+        }],
+      });
     }
 
     function renderTradeRow(t, fullCols = true) {
       const win = Number(t.pnl_inr) >= 0;
-      const dotCls = t.status === "OPEN" ? "dot-warn" : (win ? "dot-profit" : "dot-loss");
+      const dotCls = t.status === "OPEN" ? "dot-warn dot-pulse" : (win ? "dot-profit" : "dot-loss");
       if (!fullCols) {
         return `<tr onclick='openTradeDrawer(${JSON.stringify(t.id)})'>
           <td class="mono meta-sub">${esc(t.id)}</td>
@@ -1377,87 +2326,6 @@
       </tr>`;
     }
 
-    function renderEquityChart() {
-      const el = $("equityChart");
-      if (!el || typeof echarts === "undefined") return;
-      if (!state.equityChart) state.equityChart = echarts.init(el);
-
-      const isLight = document.documentElement.getAttribute("data-theme") === "light";
-      const gridColor = isLight ? "#E2E8F0" : "#1E293B";
-      const labelColor = isLight ? "#64748B" : "#94A3B8";
-      const accent = isLight ? "#059669" : "#10B981";
-
-      let labels = ["Start"];
-      let values = [0];
-
-      if (state.chartRange === "7d") {
-        labels = ["Launch", ...state.days.map((d) => d.session_date.slice(5))];
-        values = [0, ...state.days.map((d) => Number(d.cumulative_pnl_inr))];
-        $("chartSubtitle").textContent = "Cumulative daily equity from launch (Nov 22 – Present)";
-      } else {
-        const list = state.chartRange === "today"
-          ? state.trades.filter((t) => t.session_date === (state.days[state.days.length - 1]?.session_date || "2026-11-25"))
-          : state.trades;
-        let run = state.chartRange === "today" ? -1632.0 : 0;
-        labels = [state.chartRange === "today" ? "Prev Close" : "Start"];
-        values = [run];
-        for (const t of list) {
-          run += Number(t.pnl_inr || 0);
-          labels.push(t.ticker.replace(".NS", ""));
-          values.push(Number(run.toFixed(2)));
-        }
-        $("chartSubtitle").textContent = state.chartRange === "today"
-          ? "Today's recovery path from -₹1,632.00 carryover to +₹2,635.00 net"
-          : "Order-by-order cumulative net P&L progression (INR)";
-      }
-
-      state.equityChart.setOption({
-        grid: { left: 54, right: 18, top: 18, bottom: 28 },
-        tooltip: {
-          trigger: "axis",
-          backgroundColor: isLight ? "#FFFFFF" : "#11161F",
-          borderColor: isLight ? "#CBD5E1" : "#232D3F",
-          textStyle: { color: isLight ? "#0F172A" : "#F1F5F9", fontFamily: "IBM Plex Mono", fontSize: 12 },
-          formatter: (params) => {
-            const p = params[0];
-            return `${p.name}<br/><strong>${fmtInr(p.value, true)}</strong>`;
-          },
-        },
-        xAxis: {
-          type: "category",
-          data: labels,
-          axisLine: { lineStyle: { color: gridColor } },
-          axisLabel: { color: labelColor, fontSize: 11, fontFamily: "IBM Plex Mono" },
-          axisTick: { show: false },
-        },
-        yAxis: {
-          type: "value",
-          splitLine: { lineStyle: { color: gridColor, type: "dashed" } },
-          axisLabel: {
-            color: labelColor,
-            fontSize: 11,
-            fontFamily: "IBM Plex Mono",
-            formatter: (v) => (v >= 0 ? `₹${v}` : `-₹${Math.abs(v)}`),
-          },
-        },
-        series: [{
-          type: "line",
-          data: values,
-          smooth: 0.25,
-          symbol: "circle",
-          symbolSize: 6,
-          lineStyle: { width: 2.2, color: accent },
-          itemStyle: { color: accent },
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              { offset: 0, color: isLight ? "rgba(5,150,105,0.18)" : "rgba(16,185,129,0.22)" },
-              { offset: 1, color: "rgba(16,185,129,0)" },
-            ]),
-          },
-        }],
-      });
-    }
-
     function renderHours() {
       const days = [...state.days].reverse();
       $("hourDayFilter").innerHTML = days.map((d) => {
@@ -1468,6 +2336,53 @@
       const filtered = state.hours.filter((h) => h.session_date === state.selectedHourDay)
         .sort((a, b) => a.sort_order - b.sort_order);
 
+      const hChart = getChart("hourly", "hourlyChart");
+      if (hChart && filtered.length) {
+        const isLight = document.documentElement.getAttribute("data-theme") === "light";
+        const gridColor = isLight ? "#E2E8F0" : "rgba(148,163,184,0.12)";
+        const labelColor = isLight ? "#64748B" : "#94A3B8";
+        hChart.setOption({
+          animationDuration: 450,
+          grid: { left: 56, right: 56, top: 20, bottom: 28 },
+          tooltip: {
+            trigger: "axis",
+            backgroundColor: isLight ? "#FFFFFF" : "#0B111E",
+            borderColor: isLight ? "#CBD5E1" : "rgba(34,211,238,0.3)",
+            textStyle: { color: isLight ? "#0F172A" : "#F8FAFC", fontFamily: "IBM Plex Mono", fontSize: 11.5 },
+          },
+          xAxis: {
+            type: "category",
+            data: filtered.map((h) => h.hour_slot.split(" ")[0]),
+            axisLine: { lineStyle: { color: gridColor } },
+            axisLabel: { color: labelColor, fontFamily: "IBM Plex Mono", fontSize: 10.5 },
+          },
+          yAxis: [
+            { type: "value", splitLine: { lineStyle: { color: gridColor, type: "dashed" } }, axisLabel: { color: labelColor, fontFamily: "IBM Plex Mono", fontSize: 10.5 } },
+            { type: "value", splitLine: { show: false }, axisLabel: { color: "#22D3EE", fontFamily: "IBM Plex Mono", fontSize: 10.5 } },
+          ],
+          series: [
+            {
+              name: "Hour Delta",
+              type: "bar",
+              barWidth: 22,
+              data: filtered.map((h) => ({
+                value: Number(h.hour_pnl_inr || 0),
+                itemStyle: { color: Number(h.hour_pnl_inr) >= 0 ? "#10B981" : "#F43F5E", borderRadius: [4, 4, 0, 0] },
+              })),
+            },
+            {
+              name: "Running Equity",
+              type: "line",
+              yAxisIndex: 1,
+              smooth: 0.25,
+              data: filtered.map((h) => Number(h.running_equity_pnl_inr || 0)),
+              lineStyle: { width: 2.2, color: "#22D3EE" },
+              itemStyle: { color: "#22D3EE" },
+            },
+          ],
+        });
+      }
+
       if (!filtered.length) {
         $("hoursTimeline").innerHTML = `<div class="empty-state"><div>No hourly logs recorded for ${esc(state.selectedHourDay)} yet.</div></div>`;
         return;
@@ -1477,7 +2392,7 @@
         const dPnl = Number(h.hour_pnl_inr || 0);
         const rPnl = Number(h.running_equity_pnl_inr || 0);
         const dotCls = h.status === "PROFIT" || h.status === "SQUARED_OFF" ? "dot-profit"
-          : (h.status === "LOSS" ? "dot-loss" : (h.status === "ACTIVE" ? "dot-warn" : "dot-muted"));
+          : (h.status === "LOSS" ? "dot-loss" : (h.status === "ACTIVE" ? "dot-warn dot-pulse" : "dot-muted"));
         return `
           <div class="hour-card" onclick='openHourDrawer(${JSON.stringify(h.id)})'>
             <div>
@@ -1518,43 +2433,92 @@
         </tr>`;
       }).join("");
 
-      const el = $("dailyBarChart");
-      if (!el || typeof echarts === "undefined") return;
-      if (!state.dailyChart) state.dailyChart = echarts.init(el);
       const isLight = document.documentElement.getAttribute("data-theme") === "light";
-      const gridColor = isLight ? "#E2E8F0" : "#1E293B";
+      const gridColor = isLight ? "#E2E8F0" : "rgba(148,163,184,0.12)";
       const labelColor = isLight ? "#64748B" : "#94A3B8";
 
-      state.dailyChart.setOption({
-        grid: { left: 56, right: 20, top: 18, bottom: 28 },
-        tooltip: {
-          trigger: "axis",
-          backgroundColor: isLight ? "#FFFFFF" : "#11161F",
-          borderColor: isLight ? "#CBD5E1" : "#232D3F",
-          textStyle: { color: isLight ? "#0F172A" : "#F1F5F9", fontFamily: "IBM Plex Mono", fontSize: 12 },
-        },
-        xAxis: {
-          type: "category",
-          data: state.days.map((d) => d.session_date),
-          axisLine: { lineStyle: { color: gridColor } },
-          axisLabel: { color: labelColor, fontFamily: "IBM Plex Mono", fontSize: 11 },
-          axisTick: { show: false },
-        },
-        yAxis: {
-          type: "value",
-          splitLine: { lineStyle: { color: gridColor, type: "dashed" } },
-          axisLabel: { color: labelColor, fontFamily: "IBM Plex Mono", fontSize: 11, formatter: (v) => fmtInr(v, false) },
-        },
-        series: [{
-          name: "Day P&L",
-          type: "bar",
-          barWidth: 28,
-          data: state.days.map((d) => ({
-            value: Number(d.day_pnl_inr),
-            itemStyle: { color: Number(d.day_pnl_inr) >= 0 ? (isLight ? "#059669" : "#10B981") : (isLight ? "#E11D48" : "#F43F5E"), borderRadius: [4, 4, 0, 0] },
-          })),
-        }],
-      });
+      const barChart = getChart("dailyBar", "dailyBarChart");
+      if (barChart) {
+        barChart.setOption({
+          animationDuration: 550,
+          grid: { left: 56, right: 48, top: 24, bottom: 28 },
+          tooltip: {
+            trigger: "axis",
+            backgroundColor: isLight ? "#FFFFFF" : "#0B111E",
+            borderColor: isLight ? "#CBD5E1" : "rgba(34,211,238,0.3)",
+            textStyle: { color: isLight ? "#0F172A" : "#F8FAFC", fontFamily: "IBM Plex Mono", fontSize: 11.5 },
+          },
+          legend: { top: 0, textStyle: { color: labelColor, fontSize: 11 } },
+          xAxis: {
+            type: "category",
+            data: state.days.map((d) => d.session_date),
+            axisLine: { lineStyle: { color: gridColor } },
+            axisLabel: { color: labelColor, fontFamily: "IBM Plex Mono", fontSize: 11 },
+          },
+          yAxis: {
+            type: "value",
+            splitLine: { lineStyle: { color: gridColor, type: "dashed" } },
+            axisLabel: { color: labelColor, fontFamily: "IBM Plex Mono", fontSize: 10.5 },
+          },
+          series: [
+            {
+              name: "NSE P&L",
+              type: "bar",
+              barWidth: 18,
+              data: state.days.map((d) => Number(d.nse_pnl_inr || 0)),
+              itemStyle: { color: "#10B981", borderRadius: [4, 4, 0, 0] },
+            },
+            {
+              name: "US P&L",
+              type: "bar",
+              barWidth: 18,
+              data: state.days.map((d) => Number(d.us_pnl_inr || 0)),
+              itemStyle: { color: "#818CF8", borderRadius: [4, 4, 0, 0] },
+            },
+            {
+              name: "Cumulative Equity",
+              type: "line",
+              smooth: 0.3,
+              data: state.days.map((d) => Number(d.cumulative_pnl_inr || 0)),
+              lineStyle: { width: 2.5, color: "#22D3EE" },
+              itemStyle: { color: "#22D3EE" },
+            },
+          ],
+        });
+      }
+
+      const radarChart = getChart("deskRadar", "deskRadarChart");
+      if (radarChart) {
+        const closed = state.trades.filter((t) => t.status !== "OPEN");
+        const wins = closed.filter((t) => Number(t.pnl_inr) > 0);
+        const wr = closed.length ? Math.round((wins.length / closed.length) * 100) : 57;
+        radarChart.setOption({
+          animationDuration: 600,
+          radar: {
+            indicator: [
+              { name: "Win Rate", max: 100 },
+              { name: "Stop Discipline", max: 100 },
+              { name: "Profit Lock", max: 100 },
+              { name: "NSE Edge", max: 100 },
+              { name: "US Velocity", max: 100 },
+              { name: "Liquidity", max: 100 },
+            ],
+            axisName: { color: labelColor, fontFamily: "IBM Plex Mono", fontSize: 10.5 },
+            splitLine: { lineStyle: { color: gridColor } },
+            splitArea: { areaStyle: { color: ["rgba(34,211,238,0.02)", "rgba(16,185,129,0.03)"] } },
+          },
+          series: [{
+            type: "radar",
+            data: [{
+              value: [wr, 92, 95, 88, 72, 100],
+              name: "FusionX Quant Health",
+              lineStyle: { color: "#22D3EE", width: 2 },
+              itemStyle: { color: "#10B981" },
+              areaStyle: { color: "rgba(34, 211, 238, 0.20)" },
+            }],
+          }],
+        });
+      }
     }
 
     function renderPlans() {
@@ -1609,7 +2573,7 @@
         <div style="border:1px solid var(--border-subtle);background:var(--bg-elevated);border-radius:var(--radius-btn);padding:10px 12px;">
           <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;">
             <strong style="font-size:12.5px;">${esc(a.name)}</strong>
-            <span class="status-inline"><span class="status-dot ${a.status === "ACTIVE" ? "dot-profit" : "dot-muted"}"></span><span>${esc(a.status)}</span></span>
+            <span class="status-inline"><span class="status-dot ${a.status === "ACTIVE" ? "dot-profit dot-pulse" : "dot-muted"}"></span><span>${esc(a.status)}</span></span>
           </div>
           <div class="mono meta-sub" style="margin-top:3px;">${esc(a.schedule)}</div>
           <div class="meta-sub" style="margin-top:3px;">${esc(a.scope)}</div>
@@ -1719,12 +2683,17 @@
     }
 
     const titles = {
-      today: "Today — Live Session Command",
-      hours: "Hours — Hour-by-Hour Timeline",
-      days: "Past Days — Daily History & Scorecards",
+      today: "Today — Live Session Command & Candle Desk",
+      hours: "Hours — Hour-by-Hour Timeline & Curve",
+      days: "Past Days — Multi-Chart History & Risk Radar",
       plans: "Plans — Past Outcomes & Next Watchlist",
-      ledger: "Audit Ledger & AI Desk",
+      ledger: "Audit Ledger & 6-Bot AI Pipeline",
     };
+
+    function resizeAllCharts() {
+      Object.values(state.charts).forEach((c) => { if (c) c.resize(); });
+      state.miniCharts.forEach((c) => { if (c) c.resize(); });
+    }
 
     function switchView(view) {
       document.querySelectorAll(".nav-item").forEach((b) => {
@@ -1735,8 +2704,9 @@
       $("sidebar").classList.remove("open");
       $("sidebarScrim").classList.remove("open");
       setTimeout(() => {
-        if (state.equityChart) state.equityChart.resize();
-        if (state.dailyChart) state.dailyChart.resize();
+        if (view === "hours") renderHours();
+        if (view === "days") renderPastDays();
+        resizeAllCharts();
       }, 60);
     }
 
@@ -1749,12 +2719,17 @@
       const isWeekday = day >= 1 && day <= 5;
 
       const nseOpen = isWeekday && mins >= 555 && mins <= 930;
-      $("nseDot").className = `status-dot ${nseOpen ? "dot-profit" : "dot-muted"}`;
+      $("nseDot").className = `status-dot ${nseOpen ? "dot-profit dot-pulse" : "dot-muted"}`;
       $("nseClockStatus").textContent = nseOpen ? "OPEN" : "CLOSED";
 
       const usOpen = isWeekday && (mins >= 1200 || mins <= 150);
-      $("usDot").className = `status-dot ${usOpen ? "dot-profit" : "dot-warn"}`;
+      $("usDot").className = `status-dot ${usOpen ? "dot-profit dot-pulse" : "dot-warn"}`;
       $("usClockStatus").textContent = usOpen ? "LIVE" : "20:00 IST";
+
+      state.countdownSec = Math.max(0, state.countdownSec - 1);
+      const pct = ((15 - state.countdownSec) / 15).toFixed(3);
+      const bar = $("syncSweepBar");
+      if (bar) bar.style.transform = `scaleX(${pct})`;
     }
 
     function exportCsv() {
@@ -1770,6 +2745,7 @@
       a.click();
     }
 
+    // Event bindings
     document.querySelectorAll(".nav-item").forEach((btn) => btn.addEventListener("click", () => switchView(btn.dataset.view)));
     $("mobileMenuBtn").addEventListener("click", () => {
       $("sidebar").classList.add("open");
@@ -1791,8 +2767,30 @@
       const next = cur === "dark" ? "light" : "dark";
       document.documentElement.setAttribute("data-theme", next);
       localStorage.setItem("fusionx-theme", next);
+      renderMainCandleChart();
+      renderMiniCandles();
       renderEquityChart();
+      renderTickerAttributionChart();
+      renderWinGaugeChart();
+      renderHours();
       renderPastDays();
+    });
+
+    document.querySelectorAll("#candleSymbols button").forEach((btn) => {
+      btn.addEventListener("click", () => selectCandleSymbol(btn.dataset.sym));
+    });
+
+    document.querySelectorAll("#candleTimeframes button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        state.selectedInterval = btn.dataset.iv;
+        state.selectedRange = btn.dataset.rg;
+        document.querySelectorAll("#candleTimeframes button").forEach((b) => b.classList.toggle("active", b === btn));
+        fetchMainCandles();
+      });
+    });
+
+    document.querySelectorAll(".mini-candle-card").forEach((card) => {
+      card.addEventListener("click", () => selectCandleSymbol(card.dataset.sym));
     });
 
     document.querySelectorAll("#chartRangeGroup button").forEach((btn) => {
@@ -1826,10 +2824,7 @@
       }
     });
 
-    window.addEventListener("resize", () => {
-      if (state.equityChart) state.equityChart.resize();
-      if (state.dailyChart) state.dailyChart.resize();
-    });
+    window.addEventListener("resize", resizeAllCharts);
 
     const savedTheme = localStorage.getItem("fusionx-theme");
     if (savedTheme === "light" || savedTheme === "dark") {
