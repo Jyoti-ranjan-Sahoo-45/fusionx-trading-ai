@@ -1267,7 +1267,7 @@
               </div>
               <div>
                 <div style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--text-2);margin-bottom:5px;">
-                  <span>Daily ₹2,500.00 mandate</span>
+                  <span id="heroGoalLabel">Daily ₹8,000.00 mandate</span>
                   <span class="mono" id="heroGoalPct">--%</span>
                 </div>
                 <div class="progress-track"><div class="progress-fill" id="heroGoalBar" style="width:0%"></div></div>
@@ -1510,7 +1510,7 @@
                     <th class="align-right">Day Net (INR)</th>
                     <th class="align-right">Cumulative</th>
                     <th class="align-right">Trades (W/L)</th>
-                    <th>Target (₹2,500)</th>
+                    <th>Target</th>
                   </tr>
                 </thead>
                 <tbody id="pastDaysTable"></tbody>
@@ -1932,7 +1932,7 @@
       const closedTrades = state.trades.filter((t) => t.status !== "OPEN");
       const realizedAll = closedTrades.reduce((a, b) => a + Number(b.pnl_inr || 0), 0);
       const totalNet = realizedAll + floatingInr;
-      const target = Number(d.daily_target_inr || 2500);
+      const target = Number(d.daily_target_inr || 8000);
 
       const latestDay = state.days[state.days.length - 1] || {};
       const todayNet = Number(latestDay.day_pnl_inr || 0) + floatingInr;
@@ -1947,6 +1947,7 @@
       state.lastHeroVal = totalNet;
 
       $("heroCapitalSub").textContent = `Base ₹${Number(d.capital_base_inr || 617340).toLocaleString("en-IN")} · Equity ${fmtInr(Number(d.capital_base_inr || 617340) + totalNet)}`;
+      $("heroGoalLabel").textContent = `Daily ${fmtInr(target)} mandate`;
       $("heroGoalPct").textContent = `${((todayNet / target) * 100).toFixed(1)}%`;
       $("heroGoalBar").style.width = `${goalPct}%`;
       $("heroTargetStatus").textContent = todayNet >= target ? "DAILY TARGET SURPASSED" : (openTrades.length ? "SESSION LIVE" : "US PREP STANDBY");
@@ -2648,7 +2649,7 @@
 
       const rg = state.desk?.risk_guardrails || {};
       const items = [
-        ["Daily net target", fmtInr(rg.daily_target_inr || 2500)],
+        ["Daily net target", fmtInr(rg.daily_target_inr || 8000)],
         ["Max daily drawdown", fmtInr(rg.max_daily_drawdown_inr || -5000)],
         ["Per-trade risk cap", `${rg.max_risk_per_trade_pct || 1.5}% of capital`],
         ["Max concurrent slots", `${rg.max_concurrent_positions || 3} positions`],
