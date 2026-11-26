@@ -1697,7 +1697,7 @@
       selectedSymbol: "NVDA",
       selectedInterval: "5m",
       selectedRange: "1d",
-      selectedHourDay: "2026-11-25",
+      selectedHourDay: new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" }),
       chartRange: "all",
       ledgerFilter: "all",
       ledgerQuery: "",
@@ -1715,6 +1715,10 @@
       if (!el || typeof echarts === "undefined") return null;
       if (!state.charts[key]) state.charts[key] = echarts.init(el);
       return state.charts[key];
+    }
+
+    function getIstDateStr() {
+      return new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
     }
 
     function fmtInr(val, signed = false) {
@@ -1801,6 +1805,9 @@
         state.trades = trades || [];
         state.plans = plans || [];
         state.activity = activity || [];
+        if (state.hours.length && !state.hours.some((h) => h.session_date === state.selectedHourDay)) {
+          state.selectedHourDay = state.hours[0].session_date;
+        }
 
         $("dbDot").className = "status-dot dot-profit dot-pulse";
         $("dbStatusText").textContent = "Supabase Live";
@@ -1840,15 +1847,21 @@
       const openTrades = state.trades.filter((t) => t.status === "OPEN");
       const rate = Number(state.desk?.usd_inr_rate || 85);
       let floatingInr = 0;
+      let nseFloatingInr = 0;
+      let usFloatingInr = 0;
+      const liveById = {};
       const enriched = openTrades.map((t) => {
         const q = state.quotes[t.ticker];
         const livePrice = q ? Number(q.price) : Number(t.entry_price);
         const diff = (livePrice - Number(t.entry_price)) * Number(t.qty) * (t.side === "SELL" ? -1 : 1);
         const pnlInr = t.currency === "USD" ? diff * rate : diff;
         floatingInr += pnlInr;
+        if (t.market === "NSE India" || t.market === "NSE") nseFloatingInr += pnlInr;
+        else usFloatingInr += pnlInr;
+        liveById[t.id] = { livePrice, livePnlInr: pnlInr };
         return { ...t, livePrice, livePnlInr: pnlInr };
       });
-      return { openTrades: enriched, floatingInr };
+      return { openTrades: enriched, floatingInr, nseFloatingInr, usFloatingInr, liveById };
     }
 
     function renderAll() {
@@ -1928,14 +1941,21 @@
 
     function renderToday() {
       const d = state.desk || {};
-      const { openTrades, floatingInr } = computeLiveFloating();
+      const { openTrades, floatingInr, nseFloatingInr, usFloatingInr, liveById } = computeLiveFloating();
       const closedTrades = state.trades.filter((t) => t.status !== "OPEN");
       const realizedAll = closedTrades.reduce((a, b) => a + Number(b.pnl_inr || 0), 0);
       const totalNet = realizedAll + floatingInr;
-      const target = Number(d.daily_target_inr || 8000);
+      const todayStr = getIstDateStr();
+      const todayRow = state.days.find((x) => x.session_date === todayStr) || {
+        session_date: todayStr,
+        day_pnl_inr: 0,
+        nse_pnl_inr: 0,
+        us_pnl_inr: 0,
+        daily_target_inr: d.daily_target_inr || 8000,
+      };
+      const target = Number(todayRow.daily_target_inr || d.daily_target_inr || 8000);
 
-      const latestDay = state.days[state.days.length - 1] || {};
-      const todayNet = Number(latestDay.day_pnl_inr || 0) + floatingInr;
+      const todayNet = Number(todayRow.day_pnl_inr || 0) + floatingInr;
       const goalPct = Math.max(0, Math.min(100, (todayNet / target) * 100));
 
       const heroEl = $("heroNetPnl");
@@ -1947,18 +1967,23 @@
       state.lastHeroVal = totalNet;
 
       $("heroCapitalSub").textContent = `Base ₹${Number(d.capital_base_inr || 617340).toLocaleString("en-IN")} · Equity ${fmtInr(Number(d.capital_base_inr || 617340) + totalNet)}`;
-      $("heroGoalLabel").textContent = `Daily ${fmtInr(target)} mandate`;
+      $("heroGoalLabel").textContent = `Daily ${fmtInr(target)} mandate (${todayStr})`;
       $("heroGoalPct").textContent = `${((todayNet / target) * 100).toFixed(1)}%`;
       $("heroGoalBar").style.width = `${goalPct}%`;
-      $("heroTargetStatus").textContent = todayNet >= target ? "DAILY TARGET SURPASSED" : (openTrades.length ? "SESSION LIVE" : "US PREP STANDBY");
+      const mkt = d.active_market || "";
+      $("heroTargetStatus").textContent = todayNet >= target
+        ? "DAILY TARGET SURPASSED"
+        : (openTrades.length ? "SESSION LIVE" : (mkt === "NSE_LIVE" ? "NSE SCANNING" : (mkt === "US_LIVE" ? "US SCANNING" : "100% CASH STANDBY")));
 
-      $("kpiCapital").textContent = fmtInr(Number(d.liquid_reserve_inr || 619975) + floatingInr);
+      $("kpiCapital").textContent = fmtInr(Number(d.capital_base_inr || 617340) + totalNet);
       $("kpiPosture").textContent = openTrades.length ? `${openTrades.length} active position(s)` : "100% liquid cash · zero overnight carry";
 
       const todayEl = $("kpiTodayNet");
       todayEl.textContent = fmtInr(todayNet, true);
       todayEl.className = `support-value mono ${todayNet >= 0 ? "profit-text" : "loss-text"}`;
-      $("kpiTodayBreakdown").textContent = `NSE ${fmtInr(latestDay.nse_pnl_inr || 0, true)} · US ${fmtInr(Number(latestDay.us_pnl_inr || 0) + floatingInr, true)}`;
+      const nseToday = Number(todayRow.nse_pnl_inr || 0) + nseFloatingInr;
+      const usToday = Number(todayRow.us_pnl_inr || 0) + usFloatingInr;
+      $("kpiTodayBreakdown").textContent = `NSE ${fmtInr(nseToday, true)} · US ${fmtInr(usToday, true)}`;
 
       const wins = closedTrades.filter((t) => Number(t.pnl_inr) > 0).length;
       const losses = closedTrades.length - wins;
@@ -1971,10 +1996,10 @@
         posBox.innerHTML = `
           <div style="border:1px solid var(--accent-border);background:linear-gradient(135deg,var(--accent-tint),var(--bg-elevated));border-radius:var(--radius-btn);padding:12px 14px;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
-              <span class="status-inline"><span class="status-dot dot-profit dot-pulse"></span><strong>100% Cash · Profit Locked</strong></span>
+              <span class="status-inline"><span class="status-dot dot-profit dot-pulse"></span><strong>100% Cash · Capital Protected</strong></span>
               <span class="mono meta-sub">0 open</span>
             </div>
-            <div class="meta-sub">NSE closed +₹2,635.00 net green. US automated scalping fires 20:05–23:45 IST.</div>
+            <div class="meta-sub">Today ${fmtInr(todayNet, true)} · Cumulative ${fmtInr(totalNet, true)}. Automated NSE (09:20–15:10 IST) &amp; US (20:05–23:45 IST) live.</div>
           </div>`;
       } else {
         posBox.innerHTML = openTrades.map((p) => {
@@ -1992,7 +2017,9 @@
 
       renderQuoteRows();
 
-      const recent = [...state.trades].sort((a, b) => b.sort_index - a.sort_index).slice(0, 6);
+      const recent = [...state.trades].sort((a, b) => b.sort_index - a.sort_index).slice(0, 6).map((t) => (
+        t.status === "OPEN" && liveById[t.id] ? { ...t, pnl_inr: liveById[t.id].livePnlInr } : t
+      ));
       $("todayTradesPreview").innerHTML = recent.map((t) => renderTradeRow(t, false)).join("");
 
       renderMainCandleChart();
@@ -2194,19 +2221,22 @@
         values = [0, ...state.days.map((d) => Number(d.cumulative_pnl_inr))];
         $("chartSubtitle").textContent = "Cumulative daily equity from launch (Nov 22 – Present)";
       } else {
+        const todayStr = getIstDateStr();
+        const { liveById } = computeLiveFloating();
         const list = state.chartRange === "today"
-          ? state.trades.filter((t) => t.session_date === (state.days[state.days.length - 1]?.session_date || "2026-11-25"))
+          ? state.trades.filter((t) => t.session_date === todayStr)
           : state.trades;
-        let run = state.chartRange === "today" ? -1632.0 : 0;
-        labels = [state.chartRange === "today" ? "Prev Close" : "Start"];
-        values = [run];
+        let run = 0;
+        labels = [state.chartRange === "today" ? "Day Open" : "Start"];
+        values = [0];
         for (const t of list) {
-          run += Number(t.pnl_inr || 0);
+          const pnl = t.status === "OPEN" && liveById[t.id] ? liveById[t.id].livePnlInr : Number(t.pnl_inr || 0);
+          run += pnl;
           labels.push(t.ticker.replace(".NS", ""));
           values.push(Number(run.toFixed(2)));
         }
         $("chartSubtitle").textContent = state.chartRange === "today"
-          ? "Today's recovery path from -₹1,632.00 to +₹2,635.00 net"
+          ? `Today's intraday P&L path (${todayStr}): ${fmtInr(run, true)}`
           : "Order-by-order cumulative net P&L progression (INR)";
       }
 
@@ -2590,8 +2620,9 @@
     }
 
     function renderPlans() {
-      const upcoming = state.plans.filter((p) => p.plan_type === "UPCOMING");
-      const past = state.plans.filter((p) => p.plan_type === "PAST_PLAN");
+      const todayStr = getIstDateStr();
+      const upcoming = state.plans.filter((p) => p.plan_type === "UPCOMING" && p.session_date >= todayStr);
+      const past = state.plans.filter((p) => p.plan_type === "PAST_PLAN" || (p.plan_type === "UPCOMING" && p.session_date < todayStr));
 
       const renderCard = (p) => {
         const dotCls = p.status === "EXECUTED_WIN" || p.status === "QUEUED" ? "dot-profit"
@@ -2621,7 +2652,11 @@
         return true;
       });
 
-      $("fullLedgerBody").innerHTML = rows.map((t) => renderTradeRow(t, true)).join("");
+      const { liveById } = computeLiveFloating();
+      $("fullLedgerBody").innerHTML = rows.map((t) => renderTradeRow(
+        t.status === "OPEN" && liveById[t.id] ? { ...t, pnl_inr: liveById[t.id].livePnlInr } : t,
+        true
+      )).join("");
       $("ledgerEmptyBox").style.display = rows.length ? "none" : "flex";
 
       $("botFeedList").innerHTML = state.activity.slice(0, 7).map((a) => {
